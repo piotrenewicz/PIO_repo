@@ -4,8 +4,8 @@ Platformer Game
 import arcade
 
 # Constants
-SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 1080
+SCREEN_WIDTH = 3000
+SCREEN_HEIGHT = 1061
 SCREEN_TITLE = "Platformer"
 
 # Constants used to scale our sprites from their original size

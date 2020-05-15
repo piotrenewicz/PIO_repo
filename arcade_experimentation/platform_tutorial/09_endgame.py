@@ -4,8 +4,8 @@ Platformer Game
 import arcade
 
 # Constants
-SCREEN_WIDTH = 2000
-SCREEN_HEIGHT = 1000
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 650
 SCREEN_TITLE = "Platformer"
 
 # Constants used to scale our sprites from their original size
@@ -17,7 +17,7 @@ GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
 
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 5
-GRAVITY = 1
+GRAVITY = 0.7
 PLAYER_JUMP_SPEED = 20
 
 # How many pixels to keep as a minimum margin between the character
