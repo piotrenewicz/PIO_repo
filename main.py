@@ -16,9 +16,13 @@ SPRITE_PIXEL_SIZE = 128
 GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 25
-GRAVITY = 4
-PLAYER_JUMP_SPEED = 50
+player_maximum_walk_speed = 25
+player_walk_acceleration = 6
+player_walk_resistance = 2
+
+GRAVITY_when_falling = 2.1
+GRAVITY_when_jumping = 20
+PLAYER_JUMP_SPEED = 100
 
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
@@ -119,7 +123,9 @@ class MyGame(arcade.Window):
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
                                                              self.wall_list,
-                                                             GRAVITY)
+                                                             GRAVITY_when_falling)
+        self.physics_engine.enable_multi_jump(2)
+
 
     def on_draw(self):
         """ Render the screen. """
@@ -139,49 +145,84 @@ X:Velocity: {self.player_sprite.change_x}
 X:Position: {self.player_sprite.center_x} 
 Y:Velocity: {self.player_sprite.change_y} 
 Y:Position: {self.player_sprite.center_y} 
+Gravity:    {self.physics_engine.gravity_constant}
 
 
 """
         arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
                          arcade.csscolor.WHITE, 18)
 
+    # def on_key_press(self, key, modifiers):
+    #     """Called whenever a key is pressed. """
+    #     if key == arcade.key.ESCAPE:
+    #         arcade.close_window()
+    #     if key == arcade.key.R:
+    #         self.setup()
+    #
+    #     # if key == arcade.key.DOWN or key == arcade.key.S:
+    #     #     if not self.physics_engine.can_jump():
+    #     #         self.player_sprite.change_y -= POUND_POWER
+    #
+    #     if key == arcade.key.UP or key == arcade.key.W:
+    #         if self.physics_engine.can_jump():
+    #             self.physics_engine.gravity_constant = GRAVITY_when_jumping
+    #             self.physics_engine.jump(PLAYER_JUMP_SPEED)
+    #             arcade.play_sound(self.jump_sound)
+    #     elif key == arcade.key.LEFT or key == arcade.key.A:
+    #         self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
+    #     elif key == arcade.key.RIGHT or key == arcade.key.D:
+    #         self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
+
+    last_state = [False, False, False, False]
+    input_state = [False, False, False, False]
+    #              Up     Down   Left   Right
+
+    def input_process(self, key, action=True):
+        if key == arcade.key.UP or key == arcade.key.W:
+            self.input_state[0] = action
+        if key == arcade.key.DOWN or key == arcade.key.S:
+            self.input_state[1] = action
+        if key == arcade.key.LEFT or key == arcade.key.A:
+            self.input_state[2] = action
+        if key == arcade.key.RIGHT or key == arcade.key.D:
+            self.input_state[3] = action
+
+
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
         if key == arcade.key.ESCAPE:
             arcade.close_window()
-        if key == arcade.key.R:
+        elif key == arcade.key.R:
             self.setup()
+        else:
+            self.input_process(key, True)
 
-        if key == arcade.key.DOWN or key == arcade.key.S:
-            if not self.physics_engine.can_jump():
-                self.player_sprite.change_y -= POUND_POWER
-
-        if key == arcade.key.UP or key == arcade.key.W:
-            if self.physics_engine.can_jump():
-                self.player_sprite.change_y = PLAYER_JUMP_SPEED
-                arcade.play_sound(self.jump_sound)
-        elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
-
-        if key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x = 0
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.change_x = 0
-        if key == arcade.key.DOWN or key == arcade.key.S:
-            if not self.physics_engine.can_jump():
-                self.player_sprite.change_y = PLAYER_JUMP_SPEED
-                arcade.play_sound(self.jump_sound)
+        self.input_process(key, False)
 
     def update(self, delta_time):
         """ Movement and game logic """
 
-        # Call update on all sprites (The sprites don't do much in this
-        # example though.)
+        if self.input_state[0] and not self.last_state[0]:   # jump begin code
+            if self.physics_engine.can_jump():
+                self.physics_engine.gravity_constant = GRAVITY_when_jumping
+                self.physics_engine.jump(PLAYER_JUMP_SPEED)
+                arcade.play_sound(self.jump_sound)
+
+        if self.physics_engine.gravity_constant == GRAVITY_when_jumping and self.player_sprite.change_y < -0.01:
+            self.physics_engine.gravity_constant = GRAVITY_when_falling        # jump switch to fall code
+
+        if self.input_state[0] and self.last_state[0]:
+            pass  # ten if wykonuję się tylko podczas trzymania skoku, tutaj możemy experymentować
+
+        if self.input_state[2]:  # left
+            pass
+
+        if self.input_state[3]:  # right
+            pass
+
         self.physics_engine.update()
 
         # See if we hit any coins
@@ -239,6 +280,8 @@ Y:Position: {self.player_sprite.center_y}
                                 self.view_bottom,
                                 SCREEN_HEIGHT + self.view_bottom)
 
+
+        self.last_state = self.input_state
 
 def main():
     """ Main method """
