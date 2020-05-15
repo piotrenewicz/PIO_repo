@@ -4,21 +4,21 @@ Platformer Game
 import arcade
 
 # Constants
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 650
+SCREEN_WIDTH = 1920
+SCREEN_HEIGHT = 1080
 SCREEN_TITLE = "Platformer"
 
 # Constants used to scale our sprites from their original size
 CHARACTER_SCALING = 1
-TILE_SCALING = 0.5
-COIN_SCALING = 0.5
+TILE_SCALING = 1
+COIN_SCALING = 1
 SPRITE_PIXEL_SIZE = 128
 GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 20
-GRAVITY = 3
-PLAYER_JUMP_SPEED = 40
+PLAYER_MOVEMENT_SPEED = 25
+GRAVITY = 4
+PLAYER_JUMP_SPEED = 50
 
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
@@ -26,6 +26,8 @@ LEFT_VIEWPORT_MARGIN = 150
 RIGHT_VIEWPORT_MARGIN = 150
 BOTTOM_VIEWPORT_MARGIN = 100
 TOP_VIEWPORT_MARGIN = 100
+
+POUND_POWER = 60
 
 
 class MyGame(arcade.Window):
@@ -147,6 +149,12 @@ Y:Position: {self.player_sprite.center_y}
         """Called whenever a key is pressed. """
         if key == arcade.key.ESCAPE:
             arcade.close_window()
+        if key == arcade.key.R:
+            self.setup()
+
+        if key == arcade.key.DOWN or key == arcade.key.S:
+            if not self.physics_engine.can_jump():
+                self.player_sprite.change_y -= POUND_POWER
 
         if key == arcade.key.UP or key == arcade.key.W:
             if self.physics_engine.can_jump():
@@ -164,6 +172,10 @@ Y:Position: {self.player_sprite.center_y}
             self.player_sprite.change_x = 0
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.player_sprite.change_x = 0
+        if key == arcade.key.DOWN or key == arcade.key.S:
+            if not self.physics_engine.can_jump():
+                self.player_sprite.change_y = PLAYER_JUMP_SPEED
+                arcade.play_sound(self.jump_sound)
 
     def update(self, delta_time):
         """ Movement and game logic """
