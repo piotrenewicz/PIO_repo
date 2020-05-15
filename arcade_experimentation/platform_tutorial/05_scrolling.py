@@ -14,9 +14,9 @@ TILE_SCALING = 0.5
 COIN_SCALING = 0.5
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 5
-GRAVITY = 1
-PLAYER_JUMP_SPEED = 15
+PLAYER_MOVEMENT_SPEED = 15
+GRAVITY = 3
+PLAYER_JUMP_SPEED = 40
 
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
@@ -171,10 +171,8 @@ class MyGame(arcade.Window):
             self.view_left = int(self.view_left)
 
             # Do the scrolling
-            arcade.set_viewport(self.view_left,
-                                SCREEN_WIDTH + self.view_left,
-                                self.view_bottom,
-                                SCREEN_HEIGHT + self.view_bottom)
+            arcade.set_viewport(self.view_left,     SCREEN_WIDTH + self.view_left,
+                                self.view_bottom,   SCREEN_HEIGHT + self.view_bottom)
 
 
 def main():

@@ -14,9 +14,9 @@ TILE_SCALING = 0.5
 COIN_SCALING = 0.5
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 5
-GRAVITY = 1
-PLAYER_JUMP_SPEED = 15
+PLAYER_MOVEMENT_SPEED = 20
+GRAVITY = 3
+PLAYER_JUMP_SPEED = 40
 
 
 class MyGame(arcade.Window):
@@ -77,9 +77,7 @@ class MyGame(arcade.Window):
             self.wall_list.append(wall)
 
         # Create the 'physics engine'
-        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
-                                                             self.wall_list,
-                                                             GRAVITY)
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, GRAVITY)
 
     def on_draw(self):
         """ Render the screen. """
