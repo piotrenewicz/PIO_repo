@@ -57,7 +57,7 @@ class MyGame(arcade.Window):
         self.physics_engine = None
 
         # FPS lock
-        self.set_update_rate(1 / 144)
+        self.set_update_rate(1 / 40)
 
         # Used to keep track of our scrolling
         self.view_bottom = 0
