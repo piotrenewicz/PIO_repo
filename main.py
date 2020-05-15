@@ -22,8 +22,8 @@ PLAYER_JUMP_SPEED = 50
 
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
-LEFT_VIEWPORT_MARGIN = 150
-RIGHT_VIEWPORT_MARGIN = 150
+LEFT_VIEWPORT_MARGIN = 1920/3
+RIGHT_VIEWPORT_MARGIN = 1920/3
 BOTTOM_VIEWPORT_MARGIN = 100
 TOP_VIEWPORT_MARGIN = 100
 
