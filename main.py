@@ -145,7 +145,7 @@ X:Velocity: {self.player_sprite.change_x}
 X:Position: {self.player_sprite.center_x} 
 Y:Velocity: {self.player_sprite.change_y} 
 Y:Position: {self.player_sprite.center_y} 
-Gravity:    {self.physics_engine.gravity_constant}
+Gravity:    {self.input_state}
 
 
 """
@@ -178,7 +178,7 @@ Gravity:    {self.physics_engine.gravity_constant}
     #              Up     Down   Left   Right
 
     def input_process(self, key, action=True):
-        if key == arcade.key.UP or key == arcade.key.W:
+        if key == arcade.key.UP or key == arcade.key.W or key == arcade.key.SPACE:
             self.input_state[0] = action
         if key == arcade.key.DOWN or key == arcade.key.S:
             self.input_state[1] = action
@@ -218,11 +218,11 @@ Gravity:    {self.physics_engine.gravity_constant}
             pass  # ten if wykonuję się tylko podczas trzymania skoku, tutaj możemy experymentować
 
         if self.input_state[2]:  # left
-            if abs(self.player_sprite.change_x) < player_maximum_walk_speed:
+            if self.player_sprite.change_x > -player_maximum_walk_speed:
                 self.player_sprite.change_x -= player_walk_acceleration
 
         if self.input_state[3]:  # right
-            if abs(self.player_sprite.change_x) < player_maximum_walk_speed:
+            if self.player_sprite.change_x < player_maximum_walk_speed:
                 self.player_sprite.change_x += player_walk_acceleration
 
         if not self.input_state[2] and not self.input_state[3]:
