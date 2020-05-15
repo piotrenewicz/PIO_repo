@@ -145,7 +145,7 @@ X:Velocity: {self.player_sprite.change_x}
 X:Position: {self.player_sprite.center_x} 
 Y:Velocity: {self.player_sprite.change_y} 
 Y:Position: {self.player_sprite.center_y} 
-Gravity:    {self.input_state}
+Input_State:{self.input_state}
 
 
 """
