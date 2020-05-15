@@ -87,7 +87,7 @@ class MyGame(arcade.Window):
         # --- Load in a map from the tiled editor ---
 
         # Name of map file to load
-        map_name = "map.tmx"
+        map_name = "map2_level_2.tmx"
         # Name of the layer in the file that has our platforms/walls
         platforms_layer_name = 'Platforms'
         # Name of the layer that has items for pick-up
@@ -145,6 +145,8 @@ Y:Position: {self.player_sprite.center_y}
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
+        if key == arcade.key.ESCAPE:
+            arcade.close_window()
 
         if key == arcade.key.UP or key == arcade.key.W:
             if self.physics_engine.can_jump():
