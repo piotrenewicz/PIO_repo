@@ -218,10 +218,19 @@ Gravity:    {self.physics_engine.gravity_constant}
             pass  # ten if wykonuję się tylko podczas trzymania skoku, tutaj możemy experymentować
 
         if self.input_state[2]:  # left
-            pass
+            if abs(self.player_sprite.change_x) < player_maximum_walk_speed:
+                self.player_sprite.change_x -= player_walk_acceleration
 
         if self.input_state[3]:  # right
-            pass
+            if abs(self.player_sprite.change_x) < player_maximum_walk_speed:
+                self.player_sprite.change_x += player_walk_acceleration
+
+        if not self.input_state[2] and not self.input_state[3]:
+            if abs(self.player_sprite.change_x) > 0:
+                if self.player_sprite.change_x > 0:
+                    self.player_sprite.change_x -= player_walk_resistance
+                else:
+                    self.player_sprite.change_x += player_walk_resistance
 
         self.physics_engine.update()
 
@@ -280,8 +289,7 @@ Gravity:    {self.physics_engine.gravity_constant}
                                 self.view_bottom,
                                 SCREEN_HEIGHT + self.view_bottom)
 
-
-        self.last_state = self.input_state
+        self.last_state[:] = self.input_state[:]
 
 def main():
     """ Main method """
