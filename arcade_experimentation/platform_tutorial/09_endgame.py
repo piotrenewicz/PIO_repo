@@ -69,9 +69,9 @@ class MyGame(arcade.Window):
         self.level = 1
 
         # Load sounds
-        self.collect_coin_sound = arcade.load_sound("sounds/coin1.wav")
-        self.jump_sound = arcade.load_sound("sounds/jump1.wav")
-        self.game_over = arcade.load_sound("sounds/gameover1.wav")
+        self.collect_coin_sound = arcade.load_sound("../../sounds/coin1.wav")
+        self.jump_sound = arcade.load_sound("../../sounds/jump1.wav")
+        self.game_over = arcade.load_sound("../../sounds/gameover1.wav")
 
     def setup(self, level):
         """ Set up the game here. Call this function to restart the game. """
@@ -91,7 +91,7 @@ class MyGame(arcade.Window):
         self.coin_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates.
-        self.player_sprite = arcade.Sprite("images/player_1/player_stand.png", CHARACTER_SCALING)
+        self.player_sprite = arcade.Sprite("../../images/player_1/player_stand.png", CHARACTER_SCALING)
         self.player_sprite.center_x = PLAYER_START_X
         self.player_sprite.center_y = PLAYER_START_Y
         self.player_list.append(self.player_sprite)

@@ -56,8 +56,8 @@ class MyGame(arcade.Window):
         self.score = 0
 
         # Load sounds
-        self.collect_coin_sound = arcade.load_sound("sounds/coin1.wav")
-        self.jump_sound = arcade.load_sound("sounds/jump1.wav")
+        self.collect_coin_sound = arcade.load_sound("../../sounds/coin1.wav")
+        self.jump_sound = arcade.load_sound("../../sounds/jump1.wav")
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
@@ -77,7 +77,7 @@ class MyGame(arcade.Window):
         self.coin_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates.
-        self.player_sprite = arcade.Sprite("images/player_1/player_stand.png", CHARACTER_SCALING)
+        self.player_sprite = arcade.Sprite("../../images/player_1/player_stand.png", CHARACTER_SCALING)
         self.player_sprite.center_x = 64
         self.player_sprite.center_y = 96
         self.player_list.append(self.player_sprite)
@@ -85,7 +85,7 @@ class MyGame(arcade.Window):
         # Create the ground
         # This shows using a loop to place multiple sprites horizontally
         for x in range(0, 1250, 64):
-            wall = arcade.Sprite("images/tiles/grassMid.png", TILE_SCALING)
+            wall = arcade.Sprite("../../images/tiles/grassMid.png", TILE_SCALING)
             wall.center_x = x
             wall.center_y = 32
             self.wall_list.append(wall)
@@ -98,13 +98,13 @@ class MyGame(arcade.Window):
 
         for coordinate in coordinate_list:
             # Add a crate on the ground
-            wall = arcade.Sprite("images/tiles/boxCrate_double.png", TILE_SCALING)
+            wall = arcade.Sprite("../../images/tiles/boxCrate_double.png", TILE_SCALING)
             wall.position = coordinate
             self.wall_list.append(wall)
 
         # Use a loop to place some coins for our character to pick up
         for x in range(128, 1250, 256):
-            coin = arcade.Sprite("images/items/coinGold.png", COIN_SCALING)
+            coin = arcade.Sprite("../../images/items/coinGold.png", COIN_SCALING)
             coin.center_x = x
             coin.center_y = 96
             self.coin_list.append(coin)

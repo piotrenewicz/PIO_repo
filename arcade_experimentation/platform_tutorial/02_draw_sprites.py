@@ -43,7 +43,7 @@ class MyGame(arcade.Window):
         self.coin_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates.
-        self.player_sprite = arcade.Sprite("images/player_1/player_stand.png", CHARACTER_SCALING)
+        self.player_sprite = arcade.Sprite("../../images/player_1/player_stand.png", CHARACTER_SCALING)
         self.player_sprite.center_x = 64
         self.player_sprite.center_y = 120
         self.player_list.append(self.player_sprite)
@@ -51,7 +51,7 @@ class MyGame(arcade.Window):
         # Create the ground
         # This shows using a loop to place multiple sprites horizontally
         for x in range(0, 1250, 64):
-            wall = arcade.Sprite("images/tiles/grassMid.png", TILE_SCALING)
+            wall = arcade.Sprite("../../images/tiles/grassMid.png", TILE_SCALING)
             wall.center_x = x
             wall.center_y = 32
             self.wall_list.append(wall)
@@ -64,7 +64,7 @@ class MyGame(arcade.Window):
 
         for coordinate in coordinate_list:
             # Add a crate on the ground
-            wall = arcade.Sprite("images/tiles/boxCrate_double.png", TILE_SCALING)
+            wall = arcade.Sprite("../../images/tiles/boxCrate_double.png", TILE_SCALING)
             wall.position = coordinate
             self.wall_list.append(wall)
 

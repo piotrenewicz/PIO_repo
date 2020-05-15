@@ -58,8 +58,8 @@ class MyGame(arcade.Window):
         self.score = 0
 
         # Load sounds
-        self.collect_coin_sound = arcade.load_sound("sounds/coin1.wav")
-        self.jump_sound = arcade.load_sound("sounds/jump1.wav")
+        self.collect_coin_sound = arcade.load_sound("../../sounds/coin1.wav")
+        self.jump_sound = arcade.load_sound("../../sounds/jump1.wav")
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
@@ -79,7 +79,7 @@ class MyGame(arcade.Window):
         self.coin_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates.
-        self.player_sprite = arcade.Sprite("images/player_1/player_stand.png", CHARACTER_SCALING)
+        self.player_sprite = arcade.Sprite("../../images/player_1/player_stand.png", CHARACTER_SCALING)
         self.player_sprite.center_x = 64
         self.player_sprite.center_y = 96
         self.player_list.append(self.player_sprite)
