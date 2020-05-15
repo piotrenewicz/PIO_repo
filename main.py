@@ -21,7 +21,7 @@ player_walk_acceleration = 6
 player_walk_resistance = 2
 
 GRAVITY_when_falling = 2.1
-GRAVITY_when_jumping = 15
+GRAVITY_when_jumping = 20
 PLAYER_JUMP_SPEED = 100
 
 # How many pixels to keep as a minimum margin between the character
@@ -225,7 +225,7 @@ Gravity:    {self.input_state}
             if self.player_sprite.change_x < player_maximum_walk_speed:
                 self.player_sprite.change_x += player_walk_acceleration
 
-        if True:
+        if not self.input_state[2] and not self.input_state[3]:
             if abs(self.player_sprite.change_x) > 0:
                 if self.player_sprite.change_x > 0:
                     self.player_sprite.change_x -= player_walk_resistance
