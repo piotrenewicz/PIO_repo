@@ -138,19 +138,19 @@ class MyGame(arcade.Window):
         self.coin_list.draw()
         self.player_list.draw()
 
-        # Draw our score on the screen, scrolling it with the viewport
-        score_text = \
-f"""
-X:Velocity: {self.player_sprite.change_x} 
-X:Position: {self.player_sprite.center_x} 
-Y:Velocity: {self.player_sprite.change_y} 
-Y:Position: {self.player_sprite.center_y} 
-Input_State:{self.input_state}
-
-
-"""
-        arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
-                         arcade.csscolor.WHITE, 18)
+#         # Draw our score on the screen, scrolling it with the viewport
+#         score_text = \
+# f"""
+# X:Velocity: {self.player_sprite.change_x}
+# X:Position: {self.player_sprite.center_x}
+# Y:Velocity: {self.player_sprite.change_y}
+# Y:Position: {self.player_sprite.center_y}
+# Input_State:{self.input_state}
+#
+#
+# """
+#         arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
+#                          arcade.csscolor.WHITE, 18)
 
     # def on_key_press(self, key, modifiers):
     #     """Called whenever a key is pressed. """
