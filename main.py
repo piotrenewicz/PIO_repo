@@ -4,7 +4,7 @@ Platformer Game
 import arcade
 
 # Constants
-SCREEN_WIDTH = 3000
+SCREEN_WIDTH = 1080
 SCREEN_HEIGHT = 1061
 SCREEN_TITLE = "Platformer"
 
@@ -55,6 +55,9 @@ class MyGame(arcade.Window):
 
         # Our physics engine
         self.physics_engine = None
+
+        # FPS lock
+        self.set_update_rate(1 / 144)
 
         # Used to keep track of our scrolling
         self.view_bottom = 0
