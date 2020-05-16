@@ -127,8 +127,8 @@ class MyGame(arcade.Window):
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
                                                              self.wall_list,
                                                              GRAVITY_when_falling)
-        self.physics_engine.enable_multi_jump(2)
-
+        # self.physics_engine.enable_multi_jump(2)
+        # self.physics_engine.jumps_since_ground = self.physics_engine.allowed_jumps
 
     def on_draw(self):
         """ Render the screen. """
