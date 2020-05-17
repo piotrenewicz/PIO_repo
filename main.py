@@ -1,33 +1,35 @@
 import fdb
 
-connect_args = {}
+connect_args = {}  # TODO: obsługa braku pliku. W takim przypadku otworzyć ustawienia, zebrać dane, i stworzyć ten plik
 with open("connection_config.txt", "r") as f:
     for line in f.readlines():
         line = line.strip("\n")
         arg, value = line.split("=")
         connect_args[arg] = value
 
-querry = """
+query = """
 SELECT 
     ZAKU_DATA AS DATA,
     ZAKU_NUMER_DOK AS NR,
-    ZAKU_BEZ_PODATKU AS NETTO,
-    ZAKU_ODLICZ AS VAT,
-    ZAKU_BEZ_PODATKU + ZAKU_ODLICZ AS BRUTTO,
-    ZAKU_ZAPLACONO,
-    ZAKU_BEZ_PODATKU + ZAKU_ODLICZ - ZAKU_ZAPLACONO AS DO_ZAPLATY,
-    ZAKU_TERMIN_ZAPL 
+    ROUND(ZAKU_BEZ_PODATKU, 2) AS NETTO,
+    ROUND(ZAKU_ODLICZ, 2) AS VAT,
+    ROUND(ZAKU_BEZ_PODATKU + ZAKU_ODLICZ, 2) AS BRUTTO,
+    ROUND(ZAKU_ZAPLACONO, 2) AS ZAPLACONO,
+    ROUND(ZAKU_BEZ_PODATKU + ZAKU_ODLICZ - ZAKU_ZAPLACONO, 2) AS DO_ZAPLATY,
+    ZAKU_TERMIN_ZAPL AS DNI_NA_ZAPLATE
 FROM 
-    VIEW_OKNO_ZAKU;
+    VIEW_OKNO_ZAKU
+WHERE
+    ROUND(ZAKU_BEZ_PODATKU + ZAKU_ODLICZ - ZAKU_ZAPLACONO, 2) > 0
+;
 """
 
 # for arg, val in connect_args.items():
 #     print(arg, val)
 
-
 con = fdb.connect(**connect_args)
 cur = con.cursor()
-cur.execute(querry)
+cur.execute(query)
 
 # Print a header.
 for fieldDesc in cur.description:
