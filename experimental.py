@@ -1,10 +1,36 @@
 import fdb
 
+connect_args = {}
+with open("connection_config.txt", "r") as f:
+    for line in f.readlines():
+        arg, value = line.split("=")
+        connect_args[arg] = value
+
+querry = """
+SELECT 
+    ZAKU_DATA AS DATA,
+    ZAKU_NUMER_DOK AS NR,
+    ZAKU_BEZ_PODATKU AS NETTO,
+    ZAKU_ODLICZ AS VAT,
+    ZAKU_BEZ_PODATKU + ZAKU_ODLICZ AS BRUTTO,
+    ZAKU_ZAPLACONO,
+    ZAKU_BEZ_PODATKU + ZAKU_ODLICZ - ZAKU_ZAPLACONO AS DO_ZAPLATY,
+    ZAKU_TERMIN_ZAPL 
+FROM 
+    VIEW_OKNO_ZAKU;
+"""
+
+for arg, val in connect_args.items():
+    print(arg, val)
+
 con = fdb.connect(host='10.220.22.171', database='C:\\FAKT95\\0001\\0001baza.fdb', user='sysdba', password='masterkey', charset='UTF8')
+# con = fdb.connect()
 cur = con.cursor()
 # cur.execute("SELECT RDB$RELATION_NAME, RDB$DESCRIPTION  FROM RDB$RELATIONS;")
 # cur.execute("SELECT * FROM TAB_ZAKU;")
-cur.execute("SELECT ZAKU_DATA AS DATA, ZAKU_NUMER_DOK AS NR, ZAKU_BEZ_PODATKU AS NETTO, ZAKU_ODLICZ AS VAT, ZAKU_BEZ_PODATKU + ZAKU_ODLICZ AS BRUTTO, ZAKU_ZAPLACONO, ZAKU_BEZ_PODATKU + ZAKU_ODLICZ - ZAKU_ZAPLACONO AS DO_ZAPLATY, ZAKU_TERMIN_ZAPL FROM VIEW_OKNO_ZAKU;")
+
+
+cur.execute(querry)
 # cur.execute("SELECT * FROM TAB_ZPOZ;")
 
 # cur.execute("SELECT  FROM RDB$RELATIONS;")
