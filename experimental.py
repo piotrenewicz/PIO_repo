@@ -2,9 +2,11 @@ import fdb
 
 con = fdb.connect(host='10.220.22.171', database='C:\\FAKT95\\0001\\0001baza.fdb', user='sysdba', password='masterkey', charset='UTF8')
 cur = con.cursor()
-cur.execute("SELECT RDB$RELATION_NAME, RDB$DESCRIPTION  FROM RDB$RELATIONS;")
+# cur.execute("SELECT RDB$RELATION_NAME, RDB$DESCRIPTION  FROM RDB$RELATIONS;")
 # cur.execute("SELECT * FROM TAB_ZAKU;")
-# cur.execute("SELECT * FROM VIEW_OKNO_DYST;")
+cur.execute("SELECT * FROM VIEW_OKNO_ZAKU;")
+# cur.execute("SELECT * FROM TAB_ZPOZ;")
+
 # cur.execute("SELECT  FROM RDB$RELATIONS;")
 
 
