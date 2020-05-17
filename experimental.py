@@ -3,6 +3,7 @@ import fdb
 connect_args = {}
 with open("connection_config.txt", "r") as f:
     for line in f.readlines():
+        line = line.strip("\n")
         arg, value = line.split("=")
         connect_args[arg] = value
 
@@ -23,8 +24,8 @@ FROM
 for arg, val in connect_args.items():
     print(arg, val)
 
-con = fdb.connect(host='10.220.22.171', database='C:\\FAKT95\\0001\\0001baza.fdb', user='sysdba', password='masterkey', charset='UTF8')
-# con = fdb.connect()
+# con = fdb.connect(host='10.220.22.171', database='C:\\FAKT95\\0001\\0001baza.fdb', user='sysdba', password='masterkey', charset='UTF8')
+con = fdb.connect(**connect_args)
 cur = con.cursor()
 # cur.execute("SELECT RDB$RELATION_NAME, RDB$DESCRIPTION  FROM RDB$RELATIONS;")
 # cur.execute("SELECT * FROM TAB_ZAKU;")
