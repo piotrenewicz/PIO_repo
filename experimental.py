@@ -21,45 +21,13 @@ FROM
     VIEW_OKNO_ZAKU;
 """
 
-for arg, val in connect_args.items():
-    print(arg, val)
+# for arg, val in connect_args.items():
+#     print(arg, val)
 
-# con = fdb.connect(host='10.220.22.171', database='C:\\FAKT95\\0001\\0001baza.fdb', user='sysdba', password='masterkey', charset='UTF8')
+
 con = fdb.connect(**connect_args)
 cur = con.cursor()
-# cur.execute("SELECT RDB$RELATION_NAME, RDB$DESCRIPTION  FROM RDB$RELATIONS;")
-# cur.execute("SELECT * FROM TAB_ZAKU;")
-
-
 cur.execute(querry)
-# cur.execute("SELECT * FROM TAB_ZPOZ;")
-
-# cur.execute("SELECT  FROM RDB$RELATIONS;")
-
-
-
-
-# cur.execute("SELECT * FROM VIEW_OKNO_FAKT;")
-
-
-
-# VIEW_OKNO_DYST                  None
-# VIEW_SPIN_PODO1                 None
-# VIEW_SPIN_PODO2                 None
-# TAB_DYSP                        ZUI: Dodatkowe zdarzenia zwiazane z klientami
-# DEL_DYSP                        Usuniete: ZUI: Dodatkowe zdarzenia zwiazane z klientami
-# TAB_KASA                        KBN: Operacje w kasie, banku i noty rozrachunkowe
-# DEL_KASA                        Usuniete: KBN: Operacje w kasie, banku i noty rozrachunkowe
-# VIEW_SPIN_POZC1                 None
-# VIEW_SPIN_POZC2                 None
-# VIEW_SPIN_ZPOZ1                 None
-# VIEW_SPIN_ZPOZ2                 None
-# VIEW_OKNO_DOKT                  None
-# VIEW_OKNO_KBN                   None
-# VIEW_OKNO_OPER                  None
-# VIEW_OKNO_FAKT                  None
-# VIEW_OKNO_ZAKU                  None
-
 
 # Print a header.
 for fieldDesc in cur.description:
