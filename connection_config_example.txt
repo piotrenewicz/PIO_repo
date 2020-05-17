@@ -1,5 +1,0 @@
-host=10.220.22.171
-database=C:\FAKT95\0001\0001baza.fdb
-user=sysdba
-password=masterkey
-charset=UTF8
