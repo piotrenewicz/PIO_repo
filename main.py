@@ -7,7 +7,10 @@ with open("connection_config.txt", "r") as f:
         arg, value = line.split("=")
         connect_args[arg] = value
 
-query = """
+to_date = "date '01-Jan-2020'"
+
+query = f"""
+
 SELECT 
     ZAKU_DATA AS DATA,
     ZAKU_NUMER_DOK AS NR,
@@ -16,7 +19,9 @@ SELECT
     ROUND(ZAKU_BEZ_PODATKU + ZAKU_ODLICZ, 2) AS BRUTTO,
     ROUND(ZAKU_ZAPLACONO, 2) AS ZAPLACONO,
     ROUND(ZAKU_BEZ_PODATKU + ZAKU_ODLICZ - ZAKU_ZAPLACONO, 2) AS DO_ZAPLATY,
-    ZAKU_TERMIN_ZAPL AS DNI_NA_ZAPLATE
+    ZAKU_TERMIN_ZAPL AS DNI_NA_ZAPLATE,
+    ZAKU_DATA + ZAKU_TERMIN_ZAPL AS TERMIN_PLATNOSCI,
+    {to_date} - ZAKU_DATA - ZAKU_TERMIN_ZAPL AS DNI_DO_TERMINU
 FROM 
     VIEW_OKNO_ZAKU
 WHERE

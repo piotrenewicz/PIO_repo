@@ -1,0 +1,5 @@
+host=127.0.0.1
+database=C:\\Users\\conne\\PycharmProjects\\PIO_repo\\0001baza.fdb
+user=sysdba
+password=masterkey
+charset=UTF8
