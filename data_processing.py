@@ -56,9 +56,10 @@ def write_to_spreadsheet(filename, header, data):
     wb = xlwt.Workbook()  # TODO
     ws = wb.add_sheet("Sheet 1")
 
-    for i in range(len(header)):
-        ws.write(0, i, header[i])
-        # for j in
+    for row, row_value in enumerate(header):
+        ws.write(0, row, row_value)
+        for col, col_value in enumerate(data):
+            ws.write(col, row, col_value)
 
     wb.save("Spreadsheet")
 
