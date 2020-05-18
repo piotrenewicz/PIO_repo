@@ -1,4 +1,11 @@
 import fdb
+import tkinter as tk
+import data_processing
+
+
+data_processing.execute()
+exit()  # comment this to have the code below run
+
 
 connect_args = {}  # TODO: obsługa braku pliku. W takim przypadku otworzyć ustawienia, zebrać dane, i stworzyć ten plik
 with open("connection_config.txt", "r") as f:
