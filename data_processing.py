@@ -53,11 +53,18 @@ def read_database(connection_args: dict, query: str):
 
 
 def write_to_spreadsheet(filename, header, data):
-    pass  # TODO
+    wb = xlwt.Workbook()  # TODO
+    ws = wb.add_sheet("Sheet 1")
 
+    for i in range(len(header)):
+        ws.write(0, i, header[i])
+        for j in
+
+    wb.save("Spreadsheet")
 
 def execute():
     connection_args = read_config("connection_config.txt")
     query = render_query("01.01.2020")
     header, data = read_database(connection_args, query)
     write_to_spreadsheet("filename", header, data)
+
