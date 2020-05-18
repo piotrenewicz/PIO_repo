@@ -1,6 +1,6 @@
 import fdb
 import xlwt
-
+import datetime
 
 def read_config(path: str):
     args = {}  # TODO: obsługa braku pliku. W takim przypadku otworzyć ustawienia, zebrać dane, i stworzyć ten plik
@@ -53,15 +53,16 @@ def read_database(connection_args: dict, query: str):
 
 
 def write_to_spreadsheet(filename, header, data):
+
     wb = xlwt.Workbook()  # TODO
-    ws = wb.add_sheet("Sheet 1")
+    ws = wb.add_sheet("Sheet 1", cell_overwrite_ok=True)
 
     for row, row_value in enumerate(header):
         ws.write(0, row, row_value)
         for col, col_value in enumerate(data):
-            ws.write(col, row, col_value)
+            ws.write(col+1, row, str(col_value[row]))
 
-    wb.save("Spreadsheet")
+    wb.save("Spreadsheet.xls")
 
 def execute():
     connection_args = read_config("connection_config.txt")
