@@ -20,24 +20,24 @@ def render_query(to_date=None):
 SELECT *
 FROM 
     (SELECT 
-        ZAKU_DATA AS DATA,
         ZAKU_NUMER_DOK AS NR,
+        ZAKU_DATA AS DATA,
+        KONT_NAZWA || KONT_NAZWA2 as Kontrahent,
         ROUND(ZAKU_BEZ_PODATKU, 2) AS NETTO,
         ROUND(ZAKU_ODLICZ, 2) AS VAT,
         ROUND(ZAKU_BEZ_PODATKU + ZAKU_ODLICZ, 2) AS BRUTTO,
         ROUND(ZAKU_ZAPLACONO, 2) AS ZAPLACONO,
         ROUND(ZAKU_BEZ_PODATKU + ZAKU_ODLICZ - ZAKU_ZAPLACONO, 2) AS DO_ZAPLATY,
-        ZAKU_TERMIN_ZAPL AS DNI_NA_ZAPLATE,
         ZAKU_DATA + ZAKU_TERMIN_ZAPL AS TERMIN_PLATNOSCI,
-        date '{to_date}' - ZAKU_DATA - ZAKU_TERMIN_ZAPL AS DNI_DO_TERMINU
+        date '{to_date}' - ZAKU_DATA - ZAKU_TERMIN_ZAPL AS DNI_PO_TERMINIE
     FROM 
         VIEW_OKNO_ZAKU)
 WHERE
-    DO_ZAPLATY > 0 AND DNI_DO_TERMINU > 0
+    DO_ZAPLATY > 0 AND DNI_PO_TERMINIE > 0
 ORDER BY
     DATA
 ;
-"""
+"""     # ZAKU_TERMIN_ZAPL AS DNI_NA_ZAPLATE,
     return query
 
 
@@ -58,7 +58,7 @@ def write_to_spreadsheet(filename, header, data):
 
     for i in range(len(header)):
         ws.write(0, i, header[i])
-        for j in
+        # for j in
 
     wb.save("Spreadsheet")
 
