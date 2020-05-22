@@ -3,7 +3,7 @@ import tkinter as tk
 import data_processing
 
 
-data_processing.execute()
+# data_processing.execute()
 # exit()  # comment this to have the code below run
 
 
@@ -44,8 +44,11 @@ ORDER BY
 
 con = fdb.connect(**connect_args)
 cur = con.cursor()
-cur.execute(query)
-
+# cur.execute(query)
+# cur.execute("SELECT * FROM VIEW_OKNO_ZAKU;")
+# cur.execute("SELECT RDB$RELATION_NAME, RDB$DESCRIPTION  FROM RDB$RELATIONS;")
+# cur.execute("select * from TAB_FAKT")
+cur.execute("select * from VIEW_OKNO_FAKT")
 # Print a header.
 for fieldDesc in cur.description:
     print(fieldDesc[fdb.DESCRIPTION_NAME].ljust(fieldDesc[fdb.DESCRIPTION_DISPLAY_SIZE]), end=" ")
