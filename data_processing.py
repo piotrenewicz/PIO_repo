@@ -12,8 +12,8 @@ def read_config(path: str):
             args[arg] = value
     return args
 
-def render_query(choose:bool, to_date=None):
 
+def render_query(choose: bool, to_date=None):
     if not to_date:
         now = datetime.datetime.now()
         to_date = now.strftime("%Y-%m-%d")  # TODO: to_date = dzisiaj
@@ -46,12 +46,10 @@ def render_query(choose:bool, to_date=None):
         VIEW_OKNO_ZAKU
     """
 
-    mapa_kolumn = ''
     if choose:
         mapa_kolumn = wybierz_sprzedaz
     else:
         mapa_kolumn = wybierz_zakup
-
 
     query = f"""
     SELECT *
