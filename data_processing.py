@@ -134,6 +134,6 @@ def execute():
     connection_args = read_config("connection_config.txt")
     query = render_query(False)
     header, data = read_database(connection_args, query)
-    podzielone_dane = split_data(data, [180, 100, 3, 0])
+    podzielone_dane = split_data(data, [180, 90, 60, 30, 0])
     write_to_spreadsheet("Spreadsheet", header, podzielone_dane)
 
