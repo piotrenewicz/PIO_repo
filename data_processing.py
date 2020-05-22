@@ -52,6 +52,18 @@ def read_database(connection_args: dict, query: str):
     return header, data
 
 
+def split_data(data: list, split_pattern: list):
+    processed_data = []
+    for limit in split_pattern:
+        data_bucket = []
+        for idx, row in enumerate(data):
+            if row[-1] > limit:
+                data_bucket.append(row[:])
+                del row
+        processed_data.append(data_bucket)
+    return processed_data
+
+
 def write_to_spreadsheet(filename, header, data):
 
     wb = xlwt.Workbook()  # TODO
