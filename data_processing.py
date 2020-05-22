@@ -135,5 +135,5 @@ def execute():
     query = render_query(False)
     header, data = read_database(connection_args, query)
     podzielone_dane = split_data(data, [180, 100, 3, 0])
-    write_to_spreadsheet("Spreadsheet", header, podzielone_dane) #
+    write_to_spreadsheet("Spreadsheet", header, podzielone_dane)
 
