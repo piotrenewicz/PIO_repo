@@ -16,7 +16,7 @@ def read_config(path: str):
 def render_query(choose: bool, to_date=None):
     if not to_date:
         now = datetime.datetime.now()
-        to_date = now.strftime("%Y-%m-%d")  # TODO: to_date = dzisiaj
+        to_date = now.strftime("%Y-%m-%d")
 
     wybierz_sprzedaz = """
     SELECT
@@ -117,6 +117,7 @@ def write_to_spreadsheet(filename, header, splitted):
     for idx, split in enumerate(splitted):
         add_new_sheet(wb, header, split, str(idx))
     wb.save(filename + ".xls")
+
 
 def add_new_sheet(wb, header, data, sheet_name):
 
