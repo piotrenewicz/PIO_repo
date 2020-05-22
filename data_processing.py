@@ -50,7 +50,7 @@ def render_query(to_date=None):
         (SELECT 
             NR,
             DATA,
-            NAZWA || NAZWA2 as KONTRAHENT,
+            NAZWA || coalesce(' ' || NAZWA2, '') as KONTRAHENT,
             ROUND(BEZ_PODATKU, 2) AS NETTO,
             ROUND(ODLICZ, 2) AS VAT,
             ROUND(BEZ_PODATKU + ODLICZ, 2) AS BRUTTO,
