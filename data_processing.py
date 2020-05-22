@@ -16,28 +16,57 @@ def render_query(to_date=None):
     if not to_date:
         pass  # TODO: to_date = dzisiaj
 
-    query = f"""
-SELECT *
-FROM 
-    (SELECT 
-        ZAKU_NUMER_DOK AS NR,
+    select = """
+    SELECT 
+        ZAKU_NUMER_DOK AS NR, 
         ZAKU_DATA AS DATA,
-        KONT_NAZWA || KONT_NAZWA2 as Kontrahent,
-        ROUND(ZAKU_BEZ_PODATKU, 2) AS NETTO,
-        ROUND(ZAKU_ODLICZ, 2) AS VAT,
-        ROUND(ZAKU_BEZ_PODATKU + ZAKU_ODLICZ, 2) AS BRUTTO,
-        ROUND(ZAKU_ZAPLACONO, 2) AS ZAPLACONO,
-        ROUND(ZAKU_BEZ_PODATKU + ZAKU_ODLICZ - ZAKU_ZAPLACONO, 2) AS DO_ZAPLATY,
-        ZAKU_DATA + ZAKU_TERMIN_ZAPL AS TERMIN_PLATNOSCI,
-        date '{to_date}' - ZAKU_DATA - ZAKU_TERMIN_ZAPL AS DNI_PO_TERMINIE
+        KONT_NAZWA AS NAZWA,
+        KONT_NAZWA2 AS NAZWA2,
+        ZAKU_BEZ_PODATKU AS BEZ_PODATKU,
+        ZAKU_ODLICZ AS ODLICZ,
+        ZAKU_ZAPLACONO AS ZAPLACONO,
+        ZAKU_TERMIN_ZAPL AS TERMIN_ZAPLATY
     FROM 
-        VIEW_OKNO_ZAKU)
-WHERE
-    DO_ZAPLATY > 0 AND DNI_PO_TERMINIE > 0
-ORDER BY
-    DATA
-;
-"""     # ZAKU_TERMIN_ZAPL AS DNI_NA_ZAPLATE,
+        VIEW_OKNO_ZAKU
+    """
+
+    select2 = """
+    SELECT
+        FAKT_NUMER_FAKTURY AS NR,
+        FAKT_DATA AS DATA,
+        KONT_NAZWA AS NAZWA,
+        KONT_NAZWA2 AS NAZWA2,
+        FAKT_BEZ_PODATKU AS BEZ_PODATKU,
+        FAKT_PODATEK_RAZEM AS ODLICZ,
+        FAKT_ZAPLATA_RAZEM AS ZAPLACONO,
+        FAKT_TERMIN_ZAPLATY AS TERMIN_ZAPLATY
+    FROM
+        VIEW_OKNO_FAKT
+    """
+
+    query = f"""
+    SELECT *
+    FROM 
+        (SELECT 
+            NR,
+            DATA,
+            NAZWA || NAZWA2 as KONTRAHENT,
+            ROUND(BEZ_PODATKU, 2) AS NETTO,
+            ROUND(ODLICZ, 2) AS VAT,
+            ROUND(BEZ_PODATKU + ODLICZ, 2) AS BRUTTO,
+            ROUND(ZAPLACONO, 2) AS ZAPLACONO,
+            ROUND(BEZ_PODATKU + ODLICZ - ZAPLACONO, 2) AS DO_ZAPLATY,
+            DATA + TERMIN_ZAPLATY AS TERMIN_PLATNOSCI,
+            date '{to_date}' - DATA - TERMIN_ZAPLATY AS DNI_PO_TERMINIE
+        FROM 
+            ({select2})
+        )
+    WHERE
+        DO_ZAPLATY > 0 AND DNI_PO_TERMINIE > 0
+    ORDER BY
+        DATA
+    ;
+    """     # ZAKU_TERMIN_ZAPL AS DNI_NA_ZAPLATE,
     return query
 
 

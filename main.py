@@ -3,7 +3,7 @@ import tkinter as tk
 import data_processing
 
 
-# data_processing.execute()
+data_processing.execute()
 # exit()  # comment this to have the code below run
 
 
