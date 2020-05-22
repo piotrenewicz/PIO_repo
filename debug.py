@@ -4,7 +4,7 @@ import fdb
 
 def run():
     connection_args = data_processing.read_config("connection_config.txt")
-    query = data_processing.render_query("01.01.2020")
+    query = data_processing.render_query(False, "01.01.2020")
 
     # query = "SELECT * FROM VIEW_OKNO_ZAKU;"
     # query = "select * from VIEW_OKNO_FAKT;"
