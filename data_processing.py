@@ -129,6 +129,13 @@ def add_new_sheet(wb, header, data, sheet_name):
         for row, row_value in enumerate(data):
             ws.write(row + 1, column, str(row_value[column]))
 
+    for column_idx in range(3, 8):
+        suma = 0
+        for row_value in data:
+            suma += row_value[column_idx]
+        ws.write(len(data) + 1, column_idx, suma)
+
+
 
 def execute():
     connection_args = read_config("connection_config.txt")
