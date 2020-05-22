@@ -14,7 +14,7 @@ with open("connection_config.txt", "r") as f:
         arg, value = line.split("=")
         connect_args[arg] = value
 
-to_date = "01.01.2020"
+to_date = "22.05.2020"
 
 select = """
 SELECT 
@@ -50,7 +50,7 @@ FROM
     (SELECT 
         NR,
         DATA,
-        NAZWA || NAZWA2 as KONTRAHENT,
+        NAZWA || coalesce(' ' || NAZWA2, '') as KONTRAHENT,
         ROUND(BEZ_PODATKU, 2) AS NETTO,
         ROUND(ODLICZ, 2) AS VAT,
         ROUND(BEZ_PODATKU + ODLICZ, 2) AS BRUTTO,
