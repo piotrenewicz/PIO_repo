@@ -111,8 +111,6 @@ def filter_limit(data: list, limit: int):
 
     return passed, failed
 
-
-
 def write_to_spreadsheet(filename, header, splitted):
 
     wb = xlwt.Workbook()
@@ -123,7 +121,6 @@ def write_to_spreadsheet(filename, header, splitted):
 def add_new_sheet(wb, header, data, sheet_name):
 
     ws = wb.add_sheet(sheet_name, cell_overwrite_ok=True)
-
     for column, column_value in enumerate(header):
         ws.write(0, column, column_value)
         for row, row_value in enumerate(data):
@@ -134,8 +131,7 @@ def add_new_sheet(wb, header, data, sheet_name):
         for row_value in data:
             suma += row_value[column_idx]
         ws.write(len(data) + 1, column_idx, suma)
-
-
+    ws.write(len(data) + 1, 0, "SUMA:")
 
 def execute():
     connection_args = read_config("connection_config.txt")
