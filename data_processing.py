@@ -11,12 +11,27 @@ def read_config(path: str):
             args[arg] = value
     return args
 
+def render_query(choose:bool, to_date=None):
 
-def render_query(to_date=None):
     if not to_date:
-        pass  # TODO: to_date = dzisiaj
+        now = datetime.datetime.now()
+        to_date = now.strftime("%Y-%m-%d")  # TODO: to_date = dzisiaj
 
-    select = """
+    wybierz_sprzedaz = """
+    SELECT
+        FAKT_NUMER_FAKTURY AS NR,
+        FAKT_DATA AS DATA,
+        KONT_NAZWA AS NAZWA,
+        KONT_NAZWA2 AS NAZWA2,
+        FAKT_BEZ_PODATKU AS BEZ_PODATKU,
+        FAKT_PODATEK_RAZEM AS ODLICZ,
+        FAKT_ZAPLATA_RAZEM AS ZAPLACONO,
+        FAKT_TERMIN_ZAPLATY AS TERMIN_ZAPLATY
+    FROM
+        VIEW_OKNO_FAKT
+    """
+
+    wybierz_zakup = """
     SELECT 
         ZAKU_NUMER_DOK AS NR, 
         ZAKU_DATA AS DATA,
@@ -30,19 +45,12 @@ def render_query(to_date=None):
         VIEW_OKNO_ZAKU
     """
 
-    select2 = """
-    SELECT
-        FAKT_NUMER_FAKTURY AS NR,
-        FAKT_DATA AS DATA,
-        KONT_NAZWA AS NAZWA,
-        KONT_NAZWA2 AS NAZWA2,
-        FAKT_BEZ_PODATKU AS BEZ_PODATKU,
-        FAKT_PODATEK_RAZEM AS ODLICZ,
-        FAKT_ZAPLATA_RAZEM AS ZAPLACONO,
-        FAKT_TERMIN_ZAPLATY AS TERMIN_ZAPLATY
-    FROM
-        VIEW_OKNO_FAKT
-    """
+    mapa_kolumn = ''
+    if choose:
+        mapa_kolumn = wybierz_sprzedaz
+    else:
+        mapa_kolumn = wybierz_zakup
+
 
     query = f"""
     SELECT *
@@ -59,7 +67,7 @@ def render_query(to_date=None):
             DATA + TERMIN_ZAPLATY AS TERMIN_PLATNOSCI,
             date '{to_date}' - DATA - TERMIN_ZAPLATY AS DNI_PO_TERMINIE
         FROM 
-            ({select2})
+            ({mapa_kolumn})
         )
     WHERE
         DO_ZAPLATY > 0 AND DNI_PO_TERMINIE > 0
@@ -95,7 +103,7 @@ def write_to_spreadsheet(filename, header, data):
 
 def execute():
     connection_args = read_config("connection_config.txt")
-    query = render_query("01.01.2020")
+    query = render_query(False, "01.01.2020")
     header, data = read_database(connection_args, query)
     write_to_spreadsheet("filename", header, data)
 

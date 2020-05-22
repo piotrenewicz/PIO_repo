@@ -14,7 +14,7 @@ with open("connection_config.txt", "r") as f:
         arg, value = line.split("=")
         connect_args[arg] = value
 
-to_date = "22.05.2020"
+to_date = "01.01.2020"
 
 select = """
 SELECT 
