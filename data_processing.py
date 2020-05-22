@@ -117,7 +117,7 @@ def write_to_spreadsheet(filename, header, data):
 
 def execute():
     connection_args = read_config("connection_config.txt")
-    query = render_query(False, "01.01.2020")
+    query = render_query(False)
     header, data = read_database(connection_args, query)
     write_to_spreadsheet("filename", header, data)
 
