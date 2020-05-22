@@ -3,8 +3,8 @@ import tkinter as tk
 import data_processing
 
 
-data_processing.execute()
-exit()  # comment this for debug
+# data_processing.execute()
+# exit()  # comment this for debug
 import debug
 debug.run()
 exit()
