@@ -2,6 +2,7 @@ import fdb
 import xlwt
 import datetime
 
+
 def read_config(path: str):
     args = {}  # TODO: obsługa braku pliku. W takim przypadku otworzyć ustawienia, zebrać dane, i stworzyć ten plik
     with open(path, "r") as f:
@@ -11,33 +12,70 @@ def read_config(path: str):
             args[arg] = value
     return args
 
+def render_query(choose:bool, to_date=None):
 
-def render_query(to_date=None):
     if not to_date:
-        pass  # TODO: to_date = dzisiaj
+        now = datetime.datetime.now()
+        to_date = now.strftime("%Y-%m-%d")  # TODO: to_date = dzisiaj
+
+    wybierz_sprzedaz = """
+    SELECT
+        FAKT_NUMER_FAKTURY AS NR,
+        FAKT_DATA AS DATA,
+        KONT_NAZWA AS NAZWA,
+        KONT_NAZWA2 AS NAZWA2,
+        FAKT_BEZ_PODATKU AS BEZ_PODATKU,
+        FAKT_PODATEK_RAZEM AS ODLICZ,
+        FAKT_ZAPLATA_RAZEM AS ZAPLACONO,
+        FAKT_TERMIN_ZAPLATY AS TERMIN_ZAPLATY
+    FROM
+        VIEW_OKNO_FAKT
+    """
+
+    wybierz_zakup = """
+    SELECT 
+        ZAKU_NUMER_DOK AS NR, 
+        ZAKU_DATA AS DATA,
+        KONT_NAZWA AS NAZWA,
+        KONT_NAZWA2 AS NAZWA2,
+        ZAKU_BEZ_PODATKU AS BEZ_PODATKU,
+        ZAKU_ODLICZ AS ODLICZ,
+        ZAKU_ZAPLACONO AS ZAPLACONO,
+        ZAKU_TERMIN_ZAPL AS TERMIN_ZAPLATY
+    FROM 
+        VIEW_OKNO_ZAKU
+    """
+
+    mapa_kolumn = ''
+    if choose:
+        mapa_kolumn = wybierz_sprzedaz
+    else:
+        mapa_kolumn = wybierz_zakup
+
 
     query = f"""
-SELECT *
-FROM 
-    (SELECT 
-        ZAKU_NUMER_DOK AS NR,
-        ZAKU_DATA AS DATA,
-        KONT_NAZWA || KONT_NAZWA2 as Kontrahent,
-        ROUND(ZAKU_BEZ_PODATKU, 2) AS NETTO,
-        ROUND(ZAKU_ODLICZ, 2) AS VAT,
-        ROUND(ZAKU_BEZ_PODATKU + ZAKU_ODLICZ, 2) AS BRUTTO,
-        ROUND(ZAKU_ZAPLACONO, 2) AS ZAPLACONO,
-        ROUND(ZAKU_BEZ_PODATKU + ZAKU_ODLICZ - ZAKU_ZAPLACONO, 2) AS DO_ZAPLATY,
-        ZAKU_DATA + ZAKU_TERMIN_ZAPL AS TERMIN_PLATNOSCI,
-        date '{to_date}' - ZAKU_DATA - ZAKU_TERMIN_ZAPL AS DNI_PO_TERMINIE
+    SELECT *
     FROM 
-        VIEW_OKNO_ZAKU)
-WHERE
-    DO_ZAPLATY > 0 AND DNI_PO_TERMINIE > 0
-ORDER BY
-    DATA
-;
-"""     # ZAKU_TERMIN_ZAPL AS DNI_NA_ZAPLATE,
+        (SELECT 
+            NR,
+            DATA,
+            NAZWA || coalesce(' ' || NAZWA2, '') as KONTRAHENT,
+            ROUND(BEZ_PODATKU, 2) AS NETTO,
+            ROUND(ODLICZ, 2) AS VAT,
+            ROUND(BEZ_PODATKU + ODLICZ, 2) AS BRUTTO,
+            ROUND(ZAPLACONO, 2) AS ZAPLACONO,
+            ROUND(BEZ_PODATKU + ODLICZ - ZAPLACONO, 2) AS DO_ZAPLATY,
+            DATA + TERMIN_ZAPLATY AS TERMIN_PLATNOSCI,
+            date '{to_date}' - DATA - TERMIN_ZAPLATY AS DNI_PO_TERMINIE
+        FROM 
+            ({mapa_kolumn})
+        )
+    WHERE
+        DO_ZAPLATY > 0 AND DNI_PO_TERMINIE > 0
+    ORDER BY
+        DATA
+    ;
+    """
     return query
 
 
@@ -76,9 +114,10 @@ def write_to_spreadsheet(filename, header, data):
 
     wb.save("Spreadsheet.xls")
 
+
 def execute():
     connection_args = read_config("connection_config.txt")
-    query = render_query("01.01.2020")
+    query = render_query(False, "01.01.2020")
     header, data = read_database(connection_args, query)
     write_to_spreadsheet("filename", header, data)
 
