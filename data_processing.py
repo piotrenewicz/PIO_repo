@@ -90,16 +90,28 @@ def read_database(connection_args: dict, query: str):
     return header, data
 
 
-def split_data(data: list, split_pattern: list):
+def split_data(og_data: list, split_pattern: list):
     processed_data = []
+    data = og_data
+
     for limit in split_pattern:
-        data_bucket = []
-        for idx, row in enumerate(data):
-            if row[-1] > limit:
-                data_bucket.append(row[:])
-                del row
-        processed_data.append(data_bucket)
+        passed, data = filter_limit(data, limit)
+        processed_data.append(passed)
+
     return processed_data
+
+
+def filter_limit(data: list, limit: int):
+    passed = []
+    failed = []
+
+    for faktura in data:
+        if faktura[-1] > limit:
+            passed.append(faktura)
+        else:
+            failed.append(faktura)
+
+    return passed, failed
 
 
 def write_to_spreadsheet(filename, header, data):
