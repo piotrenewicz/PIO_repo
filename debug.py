@@ -17,7 +17,7 @@ def run():
 
 
 
-    data_processing.write_to_spreadsheet("filename", header, split_data[1])
+    data_processing.write_to_spreadsheet("filename", header, split_data[3])
 
 
 
