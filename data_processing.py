@@ -2,6 +2,7 @@ import fdb
 import xlwt
 import datetime
 
+
 def read_config(path: str):
     args = {}  # TODO: obsługa braku pliku. W takim przypadku otworzyć ustawienia, zebrać dane, i stworzyć ten plik
     with open(path, "r") as f:
@@ -74,7 +75,7 @@ def render_query(choose:bool, to_date=None):
     ORDER BY
         DATA
     ;
-    """     # ZAKU_TERMIN_ZAPL AS DNI_NA_ZAPLATE,
+    """
     return query
 
 
@@ -100,6 +101,7 @@ def write_to_spreadsheet(filename, header, data):
             ws.write(col+1, row, str(col_value[row]))
 
     wb.save("Spreadsheet.xls")
+
 
 def execute():
     connection_args = read_config("connection_config.txt")
