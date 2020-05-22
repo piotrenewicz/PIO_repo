@@ -114,22 +114,28 @@ def filter_limit(data: list, limit: int):
     return passed, failed
 
 
-def write_to_spreadsheet(filename, header, data):
 
-    wb = xlwt.Workbook()  # TODO
-    ws = wb.add_sheet("Sheet 1", cell_overwrite_ok=True)
+def write_to_spreadsheet(filename, header, splitted):
 
-    for row, row_value in enumerate(header):
-        ws.write(0, row, row_value)
-        for col, col_value in enumerate(data):
-            ws.write(col+1, row, str(col_value[row]))
+    wb = xlwt.Workbook()
+    for idx, split in enumerate(splitted):
+        add_new_sheet(wb, header, split, str(idx))
+    wb.save(filename + ".xls")
 
-    wb.save("Spreadsheet.xls")
+def add_new_sheet(wb, header, data, sheet_name):
+
+    ws = wb.add_sheet(sheet_name, cell_overwrite_ok=True)
+
+    for column, column_value in enumerate(header):
+        ws.write(0, column, column_value)
+        for row, row_value in enumerate(data):
+            ws.write(row + 1, column, str(row_value[column]))
 
 
 def execute():
     connection_args = read_config("connection_config.txt")
     query = render_query(False)
     header, data = read_database(connection_args, query)
-    write_to_spreadsheet("filename", header, data)
+    podzielone_dane = split_data(data, [180, 100, 3, 0])
+    write_to_spreadsheet("Spreadsheet", header, podzielone_dane)
 
