@@ -7,6 +7,12 @@ def settings(config=None):
         from main import settings_manager
         config = settings_manager.config
 
+    def zapisz():
+        config_read['password'] = password.get()
+        config_read['host'] = server_ip.get()
+        config_read['database'] = catalogue.get()
+        config_read['port'] = port.get()
+
     settings_window = Tk()
 
     # ======= Ustawienia Połączenia ==================
@@ -42,6 +48,7 @@ def settings(config=None):
     password.insert(0, config_read['password'])
     server_ip.insert(0, config_read['host'])
     catalogue.insert(0, config_read['database'])
+    port.insert(0, config_read['port'])
 
     myLabel0 = Label(settings_window, text="Ustawienia połączenia")
     myLabel1 = Label(settings_window, text="Hasło użytkownika SYSDBA:")
@@ -60,13 +67,13 @@ def settings(config=None):
     myLabel6.grid(row=7, column=0)
 
     button_0 = Button(settings_window, text="Sprawdź połączenie")
-    button_1 = Button(settings_window, text="Zapisz")
-    button_2 = Button(settings_window, text="Anuluj")
+    button_1 = Button(settings_window, text="Zapisz", command=zapisz)
+    button_2 = Button(settings_window, text="Anuluj", command=settings_window.quit)
     button_0.grid(row=5, column=1)
     button_1.grid(row=8, column=0)
     button_2.grid(row=8, column=1)
 
-
+    zapisz()
 
     settings_window.mainloop()
 

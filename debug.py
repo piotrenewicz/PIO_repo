@@ -10,7 +10,7 @@ setting_manager = SettingManager()
 
 
 
-exit()  # coment this do sprawdzenia czy zapisywanie zmiennych dobrze działa.
+# exit()  # coment this do sprawdzenia czy zapisywanie zmiennych dobrze działa.
 GUI.settings(setting_manager.config)
 
 
