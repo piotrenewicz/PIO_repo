@@ -8,10 +8,13 @@ def settings(config=None):
         config = settings_manager.config
 
     def zapisz():
+
         config_read['password'] = password.get()
         config_read['host'] = server_ip.get()
         config_read['database'] = catalogue.get()
         config_read['port'] = port.get()
+
+        settings_window.quit()
 
     settings_window = Tk()
 
@@ -72,8 +75,6 @@ def settings(config=None):
     button_0.grid(row=5, column=1)
     button_1.grid(row=8, column=0)
     button_2.grid(row=8, column=1)
-
-    zapisz()
 
     settings_window.mainloop()
 
