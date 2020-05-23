@@ -54,9 +54,3 @@ if __name__ == "__main__":
     debug.run()
     exit()
 
-
-# GOING FURTHER DOWN IS NOW deprecated
-print("this shouldn't execute")
-# soon to be removed, and replaced with debug file
-# if there's anything of value left here copy it to debug
-

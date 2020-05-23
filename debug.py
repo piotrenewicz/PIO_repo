@@ -1,5 +1,17 @@
 import data_processing
 import fdb
+from main import SettingManager
+import GUI
+import os
+
+
+os.remove('config.ini')
+setting_manager = SettingManager()
+
+
+
+exit()  # coment this do sprawdzenia czy zapisywanie zmiennych dobrze działa.
+GUI.settings(setting_manager.config)
 
 
 def run():
