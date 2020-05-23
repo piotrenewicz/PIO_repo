@@ -38,11 +38,11 @@ class SettingManager(object):
         }
 
     def get_connection_arg(self, id_firmy: int):
-        raw_connection_arg = dict(self.config['DATABASE'])
-        raw_connection_arg['port'] = int(raw_connection_arg['port'])
+        connection_arg = dict(self.config['DATABASE'])
+        connection_arg['port'] = int(connection_arg['port'])
         padded_id_firmy = str(id_firmy).zfill(4)
-        raw_connection_arg['database'] = "".join([raw_connection_arg['database'], "\\", padded_id_firmy, "\\", padded_id_firmy, "baza.fdb"])
-        return raw_connection_arg
+        connection_arg['database'] = "".join([connection_arg['database'], "\\", padded_id_firmy, "\\", padded_id_firmy, "baza.fdb"])
+        return connection_arg
 
     def read_config(self):
         with open('config.ini', 'r') as configfile:
@@ -55,8 +55,8 @@ class SettingManager(object):
 
 settings_manager = SettingManager()
 if __name__ == "__main__":
-    # GUI.lobby()
-    settings_manager.get_connection_arg(1)
+    GUI.lobby()
+    # settings_manager.get_connection_arg(1)
     # data_processing.execute()
     exit()  # comment this for debug
     import debug
