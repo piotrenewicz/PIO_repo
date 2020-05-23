@@ -96,7 +96,20 @@ def lobby():
     # [Ustawienia]      [Zamknij Program]
 
     # ---------------------------------------
+    myLabel0 = Label(main_window, text="ID firmy do zestawienia:")
+    myLabel0.grid(row=0, column=0)
 
+    id = Entry(main_window, width=10, borderwidth=3)
+    id.grid(row=0, column=1)
+
+    button_0 = Button(main_window, text="Zestawienie sprzedaży", padx=19, pady=1)
+    button_1 = Button(main_window, text="Zestawienie zakupów", padx=21, pady=1)
+    button_2 = Button(main_window, text="Ustawienia", padx=48, pady=1)
+    button_3 = Button(main_window, text="Zamknij program", command=main_window.quit)
+    button_0.grid(row=8, column=0)
+    button_1.grid(row=9, column=0)
+    button_2.grid(row=10, column=0)
+    button_3.grid(row=10, column=1)
 
     main_window.mainloop()
 
