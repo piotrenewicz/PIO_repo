@@ -22,6 +22,7 @@ class SettingManager(object):
     def populate_with_defaults(self):
         self.config['DATABASE'] = {
             'host': '127.0.0.1',
+            'port': 3050,
             'database': 'C:\\FAKT95',
             'user': 'sysdba',
             'password': 'masterkey',
@@ -47,7 +48,7 @@ class SettingManager(object):
 
 settings_manager = SettingManager()
 if __name__ == "__main__":
-    GUI.lobby()
+    # GUI.lobby()
     data_processing.execute()
     exit()  # comment this for debug
     import debug
