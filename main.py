@@ -15,7 +15,7 @@ class SettingManager(object):
         except FileNotFoundError:
             self.populate_with_defaults()
 
-            GUI.settings()
+            GUI.settings(self.config)
 
             self.write_config()
 
@@ -46,13 +46,13 @@ class SettingManager(object):
 
 
 settings_manager = SettingManager()
-
-GUI.lobby()
-data_processing.execute()
-exit()  # comment this for debug
-import debug
-debug.run()
-exit()
+if __name__ == "__main__":
+    GUI.lobby()
+    data_processing.execute()
+    exit()  # comment this for debug
+    import debug
+    debug.run()
+    exit()
 
 
 # GOING FURTHER DOWN IS NOW deprecated

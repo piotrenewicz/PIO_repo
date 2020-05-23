@@ -2,7 +2,11 @@ from tkinter import *
 from PIL import ImageTk, Image
 
 
-def settings():
+def settings(config=None):
+    if config is None:
+        from main import settings_manager
+        config = settings_manager.config
+    print(config)
     settings_window = Tk()
 
     # ======= Ustawienia Połączenia ==================
