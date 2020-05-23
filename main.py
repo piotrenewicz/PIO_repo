@@ -44,6 +44,15 @@ class SettingManager(object):
         connection_arg['database'] = "".join([connection_arg['database'], "\\", padded_id_firmy, "\\", padded_id_firmy, "baza.fdb"])
         return connection_arg
 
+    def get_split_list(self):
+        splits = self.config['splits']['splits'].strip('[]').split(',')
+        splits = sorted(list(map(int, splits)), reverse=True)
+        return splits
+
+    def set_split_list(self, splits: list):
+        splits = sorted(splits, reverse=True)
+        self.config['splits']['splits'] = str(splits)
+
     def read_config(self):
         with open('config.ini', 'r') as configfile:
             self.config.read_file(configfile)
@@ -55,8 +64,8 @@ class SettingManager(object):
 
 settings_manager = SettingManager()
 if __name__ == "__main__":
-    GUI.lobby()
-    # settings_manager.get_connection_arg(1)
+    # GUI.lobby()
+    settings_manager.get_split_list()
     # data_processing.execute()
     exit()  # comment this for debug
     import debug

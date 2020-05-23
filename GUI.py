@@ -79,6 +79,19 @@ def settings(config=None):
 
 
 def lobby():
+    from main import settings_manager
+    splits = settings_manager.get_split_list()
+
+    def add_split():
+        pass
+
+    def remove_split(idx: int):
+        pass
+
+    def save_splits():
+        # TODO this will most probably require a loop over the text fields and casting to int
+        settings_manager.set_split_list(splits)
+
     main_window = Tk()
     # ======= Podziel Spóźnienia na =============
     # [-] [0            ]
