@@ -35,12 +35,13 @@ class SettingManager(object):
 
         self.config['other'] = {
             'output_file': 'Spreadsheet',
+            'id_firmy': '1',
         }
 
-    def get_connection_arg(self, id_firmy: int):
+    def get_connection_arg(self):
         connection_arg = dict(self.config['DATABASE'])
         connection_arg['port'] = int(connection_arg['port'])
-        padded_id_firmy = str(id_firmy).zfill(4)
+        padded_id_firmy = self.config['other']['id_firmy'].zfill(4)
         connection_arg['database'] = "".join([connection_arg['database'], "\\", padded_id_firmy, "\\", padded_id_firmy, "baza.fdb"])
         return connection_arg
 
@@ -48,10 +49,6 @@ class SettingManager(object):
         splits = self.config['splits']['splits'].strip('[]').split(',')
         splits = sorted(list(map(int, splits)), reverse=True)
         return splits
-
-    def set_split_list(self, splits: list):
-        splits = sorted(splits, reverse=True)
-        self.config['splits']['splits'] = str(splits)
 
     def read_config(self):
         with open('config.ini', 'r') as configfile:
@@ -63,12 +60,17 @@ class SettingManager(object):
 
 
 settings_manager = SettingManager()
+
+
+def execute(switch: bool):
+    connection_args = settings_manager.get_connection_arg()
+    query = data_processing.render_query(switch)
+    header, data = data_processing.read_database(connection_args, query)
+    podzielone_dane = data_processing.split_data(data, settings_manager.get_split_list())
+    data_processing.write_to_spreadsheet(settings_manager.config['other']['output_file'], header, podzielone_dane)
+
+    # TODO find a way to open Output file in system preffered spreadsheet app
+
+
 if __name__ == "__main__":
     GUI.lobby()
-    settings_manager.get_split_list()
-    # data_processing.execute()
-    exit()  # comment this for debug
-    import debug
-    debug.run()
-    exit()
-
