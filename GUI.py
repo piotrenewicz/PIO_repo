@@ -61,9 +61,6 @@ def settings():
     settings_window.mainloop()
 
 
-settings()
-
-
 def lobby():
     main_window = Tk()
     # ======= Podziel Spóźnienia na =============

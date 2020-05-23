@@ -47,6 +47,7 @@ class SettingManager(object):
 
 settings_manager = SettingManager()
 
+GUI.lobby()
 data_processing.execute()
 exit()  # comment this for debug
 import debug
