@@ -94,6 +94,8 @@ def lobby():
     #
     # [Ustawienia]      [Zamknij Program]
 
+    # ---------------------------------------
+
 
     main_window.mainloop()
 
