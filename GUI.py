@@ -1,16 +1,22 @@
 from tkinter import *
 from PIL import ImageTk, Image
 
-main_window = Tk()
-settings_window = Tk()
-
 
 def settings():
-    pass
+    settings_window = Tk()
+
+
+    settings_window.mainloop()
+
+
+settings()
 
 
 def lobby():
-    pass
+    main_window = Tk()
+
+
+    main_window.mainloop()
 
 
 
