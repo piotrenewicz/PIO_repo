@@ -1,5 +1,5 @@
-import fdb
-import tkinter as tk
+# import fdb
+# import tkinter as tk
 import data_processing
 import configparser
 import GUI
@@ -62,12 +62,25 @@ class SettingManager(object):
 settings_manager = SettingManager()
 
 
+def create_split_labels(split_list):
+    prev = "+"
+    split_labels = []
+    for idx in range(len(split_list)):
+        current_label = str(split_list[idx])
+        split_labels.append(current_label + prev)
+        prev = "-" + current_label
+    return split_labels
+
+
 def execute(switch: bool):
     connection_args = settings_manager.get_connection_arg()
     query = data_processing.render_query(switch)
     header, data = data_processing.read_database(connection_args, query)
-    podzielone_dane = data_processing.split_data(data, settings_manager.get_split_list())
-    data_processing.write_to_spreadsheet(settings_manager.config['other']['output_file'], header, podzielone_dane)
+    splits = settings_manager.get_split_list()
+    podzielone_dane = data_processing.split_data(data, splits)
+    output_filename = settings_manager.config['other']['output_file']
+    split_labels = create_split_labels(splits)
+    data_processing.write_to_spreadsheet(output_filename, header, podzielone_dane, split_labels)
 
     # TODO find a way to open Output file in system preffered spreadsheet app
 

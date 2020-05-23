@@ -86,6 +86,7 @@ def settings(config=None):
 
 
 def lobby():
+    # TODO zapomnieliśmy o zmiennej TO_DATE, która ma pozwolić ustawiać wartość dnia względem którego liczona jest analiza
     # ======= Podziel Spóźnienia na =============
     # [-] [0            ]
     # [-] [30           ]
@@ -150,7 +151,9 @@ def lobby():
         found_splits = []
         for entry_field in splits_entry_fields:
             if entry_field:
-                found_splits.append(int(entry_field.get()))
+                split = entry_field.get()
+                if split.isnumeric():
+                    found_splits.append(int(split))
 
         found_splits = sorted(found_splits, reverse=True)
         if found_splits != settings_manager.get_split_list():

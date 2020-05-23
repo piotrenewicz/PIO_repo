@@ -61,7 +61,7 @@ def render_query(choose: bool, to_date=None):
     WHERE
         DO_ZAPLATY > 0 AND DNI_PO_TERMINIE > 0
     ORDER BY
-        DATA
+        KONTRAHENT
     ;
     """
     return query
@@ -102,10 +102,12 @@ def filter_limit(data: list, limit: int):
     return passed, failed
 
 
-def write_to_spreadsheet(filename, header, splitted):
+def write_to_spreadsheet(filename, header, splitted_data, split_labels):
+    split_labels.reverse()
+    splitted_data.reverse()
     wb = xlwt.Workbook()
-    for idx, split in enumerate(splitted):
-        add_new_sheet(wb, header, split, str(idx))
+    for idx, split in enumerate(splitted_data):
+        add_new_sheet(wb, header, split, split_labels[idx])
     wb.save(filename + ".xls")
 
 
