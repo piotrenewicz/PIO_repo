@@ -64,7 +64,7 @@ class SettingManager(object):
 
 settings_manager = SettingManager()
 if __name__ == "__main__":
-    # GUI.lobby()
+    GUI.lobby()
     settings_manager.get_split_list()
     # data_processing.execute()
     exit()  # comment this for debug
