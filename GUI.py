@@ -25,6 +25,8 @@ def settings(config=None):
     #
     # [Anuluj?]  [Zapisz]
 
+    config_read = config['DATABASE']
+
     password = Entry(settings_window, width=30, borderwidth=3)
     server_ip = Entry(settings_window, width=30, borderwidth=3)
     port = Entry(settings_window, width=30, borderwidth=3)
@@ -36,6 +38,10 @@ def settings(config=None):
     port.grid(row=3, column=1)
     catalogue.grid(row=4, column=1)
     path.grid(row=7, column=1)
+
+    password.insert(0, config_read['password'])
+    server_ip.insert(0, config_read['host'])
+    catalogue.insert(0, config_read['database'])
 
     myLabel0 = Label(settings_window, text="Ustawienia połączenia")
     myLabel1 = Label(settings_window, text="Hasło użytkownika SYSDBA:")
