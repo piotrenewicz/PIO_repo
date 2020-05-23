@@ -5,13 +5,11 @@ import GUI
 import os
 
 
-os.remove('config.ini')
+# os.remove('config.ini')
 setting_manager = SettingManager()
-
-
-
 # exit()  # coment this do sprawdzenia czy zapisywanie zmiennych dobrze działa.
 GUI.settings(setting_manager.config)
+setting_manager.write_config()
 
 
 def run():
