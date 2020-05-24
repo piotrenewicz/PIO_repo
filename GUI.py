@@ -49,13 +49,13 @@ def settings(config=None):
     server_ip = Entry(connection_frame, width=30, borderwidth=3)
     port = Entry(connection_frame, width=30, borderwidth=3)
     catalogue = Entry(connection_frame, width=30, borderwidth=3)
-    path = Entry(other_frame, width=30, borderwidth=3)
+    path = Entry(other_frame, width=35, borderwidth=3)
 
     password.grid(row=1, column=1)
     server_ip.grid(row=2, column=1)
     port.grid(row=3, column=1)
     catalogue.grid(row=4, column=1)
-    path.grid(row=7, column=1)
+    path.grid(row=7, column=1, sticky=W+E)
 
     password.insert(0, config_read['password'])
     server_ip.insert(0, config_read['host'])
@@ -112,7 +112,7 @@ def lobby():
     def display_split(num: str):
         nonlocal y
         new_remove = Button(splits_frame, text="-", command=lambda y=y: remove_split(y), padx=8, pady=2)
-        new_remove.grid(row=y, column=0)
+        new_remove.grid(row=y, column=0, padx=(0, 6))
         splits_remove_buttons.append(new_remove)
         new_entry = Entry(splits_frame, width=15, borderwidth=3)
         new_entry.grid(row=y, column=1)
@@ -123,7 +123,7 @@ def lobby():
     def add_split():
         display_split("")
         new_split_button.grid_forget()
-        new_split_button.grid(row=y, column=0)
+        new_split_button.grid(row=y, column=0, padx=(0, 6))
 
     def remove_split(idx: int):
         splits_entry_fields[idx].grid_forget()
@@ -172,8 +172,8 @@ def lobby():
     for barrier in splits:
         display_split(str(barrier))
 
-    new_split_button = Button(splits_frame, text="+", command=add_split, padx=5, pady=2)
-    new_split_button.grid(row=y, column=0)
+    new_split_button = Button(splits_frame, text="+", command=add_split, padx=6, pady=2)
+    new_split_button.grid(row=y, column=0, padx=(0, 6))
     # ---------------------------------------
     myLabel0 = Label(important_frame, text="ID firmy do zestawienia:")
     myLabel0.grid(row=0, column=1, pady=(0, 20))
