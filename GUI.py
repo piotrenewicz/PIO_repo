@@ -157,7 +157,7 @@ def lobby():
 
         found_splits = sorted(found_splits, reverse=True)
         if found_splits != settings_manager.get_split_list():
-            settings_manager.config['splits']['splits'] = str(splits)
+            settings_manager.config['splits']['splits'] = str(found_splits)
             write = True
 
         if write:
