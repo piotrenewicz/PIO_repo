@@ -95,13 +95,12 @@ def execute(switch: bool):
             os.startfile(output_filename + ".xls")
 
 
-    except PermissionError as e:
-        messagebox.showerror("Error", str(e))
-    except OSError as e:
-        messagebox.showerror("Error", str(e))
     except Exception as e:
-        messagebox.showerror("Error", str(e))
-
+        messagebox.showerror(type(e).__name__, str(e))
+    #     except PermissionError as e:
+    #           messagebox.showerror("Error", str(e))
+    #     except OSError as e:
+    #           messagebox.showerror("Error", str(e))
 
 
 
