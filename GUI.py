@@ -63,6 +63,8 @@ def settings(config=None):
     port.insert(0, config_read['port'])
     path.insert(0, config['other']['output_file'])
 
+
+
     myLabel1 = Label(connection_frame, text="Hasło użytkownika SYSDBA:")
     myLabel2 = Label(connection_frame, text="IP servera bazy danych:")
     myLabel3 = Label(connection_frame, text="Numer portu:")
