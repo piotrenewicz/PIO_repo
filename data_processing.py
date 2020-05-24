@@ -140,10 +140,20 @@ def write_to_spreadsheet(filename, header, splitted_data, split_labels):
 
 def add_new_sheet(wb, header, data, sheet_name):
     ws = FitSheetWrapper(wb.add_sheet(sheet_name, cell_overwrite_ok=True))
+    style = xlwt.XFStyle()
+    pattern = xlwt.Pattern()
+    pattern.pattern = xlwt.Pattern.SOLID_PATTERN
+    pattern.pattern_fore_colour = xlwt.Style.colour_map['dark_purple']
+    style.pattern = pattern
+
     for column, column_value in enumerate(header):
         ws.write(0, column, column_value)
+
         for row, row_value in enumerate(data):
-            ws.write(row + 1, column, str(row_value[column]))
+            if column in range(3,8):
+                ws.write(row + 1, column, str(row_value[column]), style)
+            else:
+                ws.write(row + 1, column, str(row_value[column]))
 
     for column_idx in range(3, 8):
         suma = 0
