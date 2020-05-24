@@ -4,7 +4,6 @@ import datetime
 import arial10
 
 
-
 def render_query(choose: bool, to_date=None):
     if not to_date:
         now = datetime.datetime.now()
@@ -120,7 +119,12 @@ class FitSheetWrapper(object):
 
     def write(self, r, c, label='', *args, **kwargs):
         self.sheet.write(r, c, label, *args, **kwargs)
-        width = arial10.fitwidth(label)
+
+        offset = 0
+        if type(label) == float:
+            offset = 262.637 * 2 + 146.015
+
+        width = arial10.fitwidth(str(label)) + offset
         if width > self.widths.get(c, 0):
             self.widths[c] = width
             self.sheet.col(c).width = int(width)
@@ -154,7 +158,7 @@ def add_new_sheet(wb, header, data, sheet_name):
 
         for row, row_value in enumerate(data):
             if column in range(3,8):
-                ws.write(row + 1, column, str(row_value[column]), style)
+                ws.write(row + 1, column, row_value[column], style)
             else:
                 ws.write(row + 1, column, str(row_value[column]))
 
@@ -162,7 +166,7 @@ def add_new_sheet(wb, header, data, sheet_name):
         suma = 0
         for row_value in data:
             suma += row_value[column_idx]
-        ws.write(len(data) + 1, column_idx, str(suma))
+        ws.write(len(data) + 1, column_idx, round(suma, 2))
     ws.write(len(data) + 1, 0, "SUMA:")
 
 
