@@ -3,6 +3,7 @@
 import data_processing
 import configparser
 import GUI
+import os
 
 
 class SettingManager(object):
@@ -85,7 +86,7 @@ def execute(switch: bool):
     data_processing.write_to_spreadsheet(output_filename, header, podzielone_dane, split_labels)
 
     # TODO find a way to open Output file in system preffered spreadsheet app
-
+    os.startfile(output_filename + ".xls")
 
 if __name__ == "__main__":
     GUI.lobby()
