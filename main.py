@@ -94,7 +94,6 @@ def execute(switch: bool):
         if settings_manager.config['other'].getboolean('open_file'):
             os.startfile(output_filename + ".xls")
 
-
     except Exception as e:
         messagebox.showerror(type(e).__name__, str(e))
     #     except PermissionError as e:
