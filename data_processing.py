@@ -140,11 +140,14 @@ def write_to_spreadsheet(filename, header, splitted_data, split_labels):
 
 def add_new_sheet(wb, header, data, sheet_name):
     ws = FitSheetWrapper(wb.add_sheet(sheet_name, cell_overwrite_ok=True))
-    style = xlwt.XFStyle()
-    pattern = xlwt.Pattern()
-    pattern.pattern = xlwt.Pattern.SOLID_PATTERN
-    pattern.pattern_fore_colour = xlwt.Style.colour_map['dark_purple']
-    style.pattern = pattern
+    # style = xlwt.XFStyle()
+    # style.num_format_str = r'#,##0'
+    # pattern = xlwt.Pattern()
+    # pattern.pattern = xlwt.Pattern.SOLID_PATTERN
+    # pattern.pattern_fore_colour = xlwt.Style.colour_map['dark_purple']
+    # style.pattern = pattern
+
+    style = xlwt.easyxf("", "#,###.00")
 
     for column, column_value in enumerate(header):
         ws.write(0, column, column_value)
