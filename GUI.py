@@ -41,6 +41,7 @@ def settings(config=None):
 
     settings_window = Tk()
     settings_window.title("Ustawienia")
+    settings_window.resizable(False, False)
 
     connection_frame = LabelFrame(settings_window, text="Ustawienia Połączenia", padx=10, pady=10)
     other_frame = LabelFrame(settings_window, text="Inne ustawienia", padx=10, pady=10)
@@ -87,7 +88,6 @@ def settings(config=None):
 
 
 def lobby():
-    # TODO zapomnieliśmy o zmiennej TO_DATE, która ma pozwolić ustawiać wartość dnia względem którego liczona jest analiza
     # ======= Podziel Spóźnienia na =============
     # [-] [0            ]
     # [-] [30           ]
@@ -169,6 +169,8 @@ def lobby():
             settings_manager.write_config()
 
     main_window = Tk()
+    main_window.title("Nasz program")
+    main_window.resizable(False, False)
 
     splits_frame = LabelFrame(main_window, text="Wybrane przedziały danych:", padx=10, pady=10)
     important_frame = Frame(main_window, padx=10, pady=10)
