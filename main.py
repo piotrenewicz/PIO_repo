@@ -77,8 +77,11 @@ def create_split_labels(split_list):
 
 
 def execute(switch: bool):
+    date = settings_manager.config['other']['to_date']
+    if date == '':
+        date == None
     connection_args = settings_manager.get_connection_arg()
-    query = data_processing.render_query(switch)
+    query = data_processing.render_query(switch, to_date=date)
     header, data = data_processing.read_database(connection_args, query)
     splits = settings_manager.get_split_list()
     podzielone_dane = data_processing.split_data(data, splits)
@@ -86,7 +89,6 @@ def execute(switch: bool):
     split_labels = create_split_labels(splits)
     data_processing.write_to_spreadsheet(output_filename, header, podzielone_dane, split_labels)
 
-    # TODO find a way to open Output file in system preffered spreadsheet app
     os.startfile(output_filename + ".xls")
 
 if __name__ == "__main__":

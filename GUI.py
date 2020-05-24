@@ -1,5 +1,5 @@
 from tkinter import *
-from os import path
+import datetime
 # from PIL import ImageTk, Image
 
 
@@ -149,6 +149,10 @@ def lobby():
             settings_manager.config['other']['id_firmy'] = id.get()
             write = True
 
+        if settings_manager.config['other']['to_date'] != to_date.get():
+            settings_manager.config['other']['to_date'] = to_date.get()
+            write = True
+
         found_splits = []
         for entry_field in splits_entry_fields:
             if entry_field:
@@ -184,8 +188,9 @@ def lobby():
     id.grid(row=0, column=2, pady=(0, 20))
     id.insert(0, settings_manager.config['other']['id_firmy'])
 
-    data = Entry(important_frame, width=10, borderwidth=3)
-    data.grid(row=1, column=2, pady=(0, 20))
+    to_date = Entry(important_frame, width=10, borderwidth=3)
+    to_date.grid(row=1, column=2, pady=(0, 20))
+    to_date.insert(0, settings_manager.config['other']['to_date'])
 
     button_0 = Button(important_frame, text="Zestawienie sprzedaży", pady=6, command=sprzedarze)
     button_1 = Button(important_frame, text="Zestawienie zakupów", pady=6, command=zakupy)
