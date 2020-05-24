@@ -1,6 +1,8 @@
 import fdb
 import xlwt
 import datetime
+import arial10
+
 
 
 def render_query(choose: bool, to_date=None):
@@ -102,6 +104,31 @@ def filter_limit(data: list, limit: int):
     return passed, failed
 
 
+class FitSheetWrapper(object):
+    """Try to fit columns to max size of any entry.
+    To use, wrap this around a worksheet returned from the
+    workbook's add_sheet method, like follows:
+
+        sheet = FitSheetWrapper(book.add_sheet(sheet_name))
+
+    The worksheet interface remains the same: this is a drop-in wrapper
+    for auto-sizing columns.
+    """
+    def __init__(self, sheet):
+        self.sheet = sheet
+        self.widths = dict()
+
+    def write(self, r, c, label='', *args, **kwargs):
+        self.sheet.write(r, c, label, *args, **kwargs)
+        width = arial10.fitwidth(label)
+        if width > self.widths.get(c, 0):
+            self.widths[c] = width
+            self.sheet.col(c).width = int(width)
+
+    def __getattr__(self, attr):
+        return getattr(self.sheet, attr)
+
+
 def write_to_spreadsheet(filename, header, splitted_data, split_labels):
     split_labels.reverse()
     splitted_data.reverse()
@@ -112,7 +139,7 @@ def write_to_spreadsheet(filename, header, splitted_data, split_labels):
 
 
 def add_new_sheet(wb, header, data, sheet_name):
-    ws = wb.add_sheet(sheet_name, cell_overwrite_ok=True)
+    ws = FitSheetWrapper(wb.add_sheet(sheet_name, cell_overwrite_ok=True))
     for column, column_value in enumerate(header):
         ws.write(0, column, column_value)
         for row, row_value in enumerate(data):
@@ -122,7 +149,7 @@ def add_new_sheet(wb, header, data, sheet_name):
         suma = 0
         for row_value in data:
             suma += row_value[column_idx]
-        ws.write(len(data) + 1, column_idx, suma)
+        ws.write(len(data) + 1, column_idx, str(suma))
     ws.write(len(data) + 1, 0, "SUMA:")
 
 
