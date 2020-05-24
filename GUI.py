@@ -45,7 +45,7 @@ def settings(config=None):
     connection_frame = LabelFrame(settings_window, text="Ustawienia Połączenia", padx=10, pady=10)
     other_frame = LabelFrame(settings_window, text="Inne ustawienia", padx=10, pady=10)
 
-    password = Entry(connection_frame, width=30, borderwidth=3)
+    password = Entry(connection_frame, width=30, borderwidth=3, show ="*")
     server_ip = Entry(connection_frame, width=30, borderwidth=3)
     port = Entry(connection_frame, width=30, borderwidth=3)
     catalogue = Entry(connection_frame, width=30, borderwidth=3)
