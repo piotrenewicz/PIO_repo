@@ -4,7 +4,7 @@ import data_processing
 import configparser
 import GUI
 import os
-
+import winpaths
 
 class SettingManager(object):
     config = None
@@ -35,7 +35,7 @@ class SettingManager(object):
         }
 
         self.config['other'] = {
-            'output_file': 'Spreadsheet',
+            'output_file': os.path.join(winpaths.get_desktop(), 'Zestawienie'),
             'id_firmy': '1',
         }
 
