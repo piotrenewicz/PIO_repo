@@ -37,6 +37,7 @@ class SettingManager(object):
         self.config['other'] = {
             'output_file': os.path.join(winpath.get_desktop(), 'Zestawienie'),
             'id_firmy': '1',
+            'to_date': '',
         }
 
     def get_connection_arg(self):
