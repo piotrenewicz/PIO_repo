@@ -47,6 +47,8 @@ class SettingManager(object):
 
     def get_split_list(self):
         splits = self.config['splits']['splits'].strip('[]').split(',')
+        if splits == [""]:
+            return []
         splits = sorted(list(map(int, splits)), reverse=True)
         return splits
 
