@@ -6,6 +6,7 @@ import GUI
 import os
 import winpath
 from tkinter import messagebox
+from fdb.fbcore import DatabaseError
 
 class SettingManager(object):
     config = None
@@ -89,6 +90,10 @@ def execute(switch: bool):
         output_filename = settings_manager.config['other']['output_file']
         split_labels = create_split_labels(splits)
         data_processing.write_to_spreadsheet(output_filename, header, podzielone_dane, split_labels)
+
+        if settings_manager.config['other'].getboolean('open_file'):
+            os.startfile(output_filename + ".xls")
+
     except Exception(BaseException):
         messagebox.showerror("Error", "Klient FireBird nie jest zainstalowany")
     except PermissionError:
@@ -96,8 +101,7 @@ def execute(switch: bool):
     except OSError(Exception):
         messagebox.showerror("Error", "Wymagany program do otwierania plików z rozszerzeniem .xls")
 
-    if settings_manager.config['other'].getboolean('open_file'):
-       os.startfile(output_filename + ".xls")
+
 
 
 if __name__ == "__main__":
