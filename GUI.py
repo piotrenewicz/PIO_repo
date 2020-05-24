@@ -145,18 +145,18 @@ def lobby():
 
 
     def zakupy():
-        try:
+        # try:
             saveall()
             execute(False)
-        except:
-            messagebox.showerror("Error","System nie może odnaleźć określonej ścieżki.")
+        # except:
+        #     messagebox.showerror("Error","System nie może odnaleźć określonej ścieżki.")
 
     def sprzedaze():
-         try:
+         # try:
             saveall()
             execute(True)
-         except:
-            messagebox.showerror("Error","System nie może odnaleźć określonej ścieżki.")
+         # except:
+         #    messagebox.showerror("Error","System nie może odnaleźć określonej ścieżki.")
 
 
 

@@ -94,12 +94,13 @@ def execute(switch: bool):
         if settings_manager.config['other'].getboolean('open_file'):
             os.startfile(output_filename + ".xls")
 
-    except Exception(BaseException):
-        messagebox.showerror("Error", "Klient FireBird nie jest zainstalowany")
+
     except PermissionError:
         messagebox.showerror("Error", "Próba wygenerowania zestawienia, gdy jest już otwarte")
-    except OSError(Exception):
+    except OSError:
         messagebox.showerror("Error", "Wymagany program do otwierania plików z rozszerzeniem .xls")
+    except Exception:
+        messagebox.showerror("Error", "Klient FireBird nie jest zainstalowany")
 
 
 
