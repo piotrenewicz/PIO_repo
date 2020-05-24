@@ -151,7 +151,7 @@ def add_new_sheet(wb, header, data, sheet_name):
     # pattern.pattern_fore_colour = xlwt.Style.colour_map['dark_purple']
     # style.pattern = pattern
 
-    style = xlwt.easyxf("", "#,###.00")
+    style = xlwt.easyxf("", "#,##0.00")
 
     for column, column_value in enumerate(header):
         ws.write(0, column, column_value)
@@ -166,7 +166,7 @@ def add_new_sheet(wb, header, data, sheet_name):
         suma = 0
         for row_value in data:
             suma += row_value[column_idx]
-        ws.write(len(data) + 1, column_idx, round(suma, 2))
+        ws.write(len(data) + 1, column_idx, round(suma, 2), style)
     ws.write(len(data) + 1, 0, "SUMA:")
 
 

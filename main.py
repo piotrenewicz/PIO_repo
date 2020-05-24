@@ -84,7 +84,6 @@ def execute(switch: bool):
     header, data = data_processing.read_database(connection_args, query)
     splits = settings_manager.get_split_list()
     podzielone_dane = data_processing.split_data(data, splits)
-    print(podzielone_dane)
     output_filename = settings_manager.config['other']['output_file']
     split_labels = create_split_labels(splits)
     data_processing.write_to_spreadsheet(output_filename, header, podzielone_dane, split_labels)
