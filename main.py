@@ -78,8 +78,6 @@ def create_split_labels(split_list):
 
 def execute(switch: bool):
     date = settings_manager.config['other']['to_date']
-    if date == '':
-        date == None
     connection_args = settings_manager.get_connection_arg()
     query = data_processing.render_query(switch, to_date=date)
     header, data = data_processing.read_database(connection_args, query)
