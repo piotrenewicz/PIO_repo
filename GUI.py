@@ -46,6 +46,8 @@ def settings(config=None):
     settings_window.title("Ustawienia")
     settings_window.resizable(False, False)
 
+    settings_window.option_add( "*font", "lucida 10" )
+
     connection_frame = LabelFrame(settings_window, text="Ustawienia Połączenia", padx=10, pady=10)
     other_frame = LabelFrame(settings_window, text="Inne ustawienia", padx=10, pady=10)
     auto_open_var = IntVar(master=other_frame, value=config['other'].getboolean('open_file'))
@@ -188,6 +190,8 @@ def lobby():
     main_window = Tk()
     main_window.title("ZZiNP")
     main_window.resizable(False, False)
+
+    main_window.option_add("*font", "lucida 10")
 
     splits_frame = LabelFrame(main_window, text="Wybrane przedziały danych:", padx=10, pady=10)
     important_frame = Frame(main_window, padx=10, pady=10)
