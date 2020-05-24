@@ -1,6 +1,8 @@
+from PIL import ImageTk, Image
 from tkinter import *
 # import datetime
-# from PIL import ImageTk, Image
+from tkinter import messagebox
+import sys
 
 
 def settings(config=None):
@@ -35,6 +37,7 @@ def settings(config=None):
         config['other']['open_file'] = str(auto_open_var.get())
 
         close()
+
 
     def close():
         settings_window.quit()
@@ -141,13 +144,22 @@ def lobby():
         settings()
         settings_manager.write_config()
 
+
     def zakupy():
-        saveall()
-        execute(False)
+        try:
+            saveall()
+            execute(False)
+        except:
+            messagebox.showerror("Error","System nie może odnaleźć określonej ścieżki.")
 
     def sprzedaze():
-        saveall()
-        execute(True)
+         try:
+            saveall()
+            execute(True)
+         except:
+            messagebox.showerror("Error","System nie może odnaleźć określonej ścieżki.")
+
+
 
     def saveall():
         write = False

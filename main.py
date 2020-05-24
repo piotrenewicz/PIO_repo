@@ -5,6 +5,7 @@ import configparser
 import GUI
 import os
 import winpath
+from tkinter import messagebox
 
 class SettingManager(object):
     config = None
@@ -78,18 +79,25 @@ def create_split_labels(split_list):
 
 
 def execute(switch: bool):
-    date = settings_manager.config['other']['to_date']
-    connection_args = settings_manager.get_connection_arg()
-    query = data_processing.render_query(switch, to_date=date)
-    header, data = data_processing.read_database(connection_args, query)
-    splits = settings_manager.get_split_list()
-    podzielone_dane = data_processing.split_data(data, splits)
-    output_filename = settings_manager.config['other']['output_file']
-    split_labels = create_split_labels(splits)
-    data_processing.write_to_spreadsheet(output_filename, header, podzielone_dane, split_labels)
+    try:
+        date = settings_manager.config['other']['to_date']
+        connection_args = settings_manager.get_connection_arg()
+        query = data_processing.render_query(switch, to_date=date)
+        header, data = data_processing.read_database(connection_args, query)
+        splits = settings_manager.get_split_list()
+        podzielone_dane = data_processing.split_data(data, splits)
+        output_filename = settings_manager.config['other']['output_file']
+        split_labels = create_split_labels(splits)
+        data_processing.write_to_spreadsheet(output_filename, header, podzielone_dane, split_labels)
+    except Exception(BaseException):
+        messagebox.showerror("Error", "Klient FireBird nie jest zainstalowany")
+    except PermissionError:
+        messagebox.showerror("Error", "Próba wygenerowania zestawienia, gdy jest już otwarte")
+    except OSError(Exception):
+        messagebox.showerror("Error", "Wymagany program do otwierania plików z rozszerzeniem .xls")
 
     if settings_manager.config['other'].getboolean('open_file'):
-        os.startfile(output_filename + ".xls")
+       os.startfile(output_filename + ".xls")
 
 
 if __name__ == "__main__":

@@ -2,7 +2,8 @@ import fdb
 import xlwt
 import datetime
 import arial10
-
+from tkinter import *
+from tkinter import messagebox
 
 def render_query(choose: bool, to_date=None):
     if not to_date:
@@ -69,7 +70,9 @@ def render_query(choose: bool, to_date=None):
 
 
 def read_database(connection_args: dict, query: str):
+
     connection = fdb.connect(**connection_args)
+
     cursor = connection.cursor()
     cursor.execute(query)
 
