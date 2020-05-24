@@ -38,6 +38,7 @@ class SettingManager(object):
             'output_file': os.path.join(winpath.get_desktop(), 'Zestawienie'),
             'id_firmy': '1',
             'to_date': '',
+            'open_file': '1',
         }
 
     def get_connection_arg(self):
@@ -87,7 +88,9 @@ def execute(switch: bool):
     split_labels = create_split_labels(splits)
     data_processing.write_to_spreadsheet(output_filename, header, podzielone_dane, split_labels)
 
-    os.startfile(output_filename + ".xls")
+    if settings_manager.config['other'].getboolean('open_file'):
+        os.startfile(output_filename + ".xls")
+
 
 if __name__ == "__main__":
     GUI.lobby()

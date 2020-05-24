@@ -64,6 +64,8 @@ def settings(config=None):
     port.insert(0, config_read['port'])
     path.insert(0, config['other']['output_file'])
 
+
+
     myLabel1 = Label(connection_frame, text="Hasło użytkownika SYSDBA:")
     myLabel2 = Label(connection_frame, text="IP servera bazy danych:")
     myLabel3 = Label(connection_frame, text="Numer portu:")
@@ -182,12 +184,12 @@ def lobby():
     new_split_button.grid(row=y, column=0, padx=(0, 6))
     # ---------------------------------------
     myLabel0 = Label(important_frame, text="ID firmy do zestawienia:")
-    myLabel0.grid(row=0, column=1, pady=(0, 20))
+    myLabel0.grid(row=0, column=1)
     myLabel1 = Label(important_frame, text="Data:")
-    myLabel1.grid(row=1, column=1, pady=(0, 20), padx = (97, 0))
+    myLabel1.grid(row=1, column=1, pady=(0, 20), sticky=E)
 
     id = Entry(important_frame, width=10, borderwidth=3)
-    id.grid(row=0, column=2, pady=(0, 20))
+    id.grid(row=0, column=2)
     id.insert(0, settings_manager.config['other']['id_firmy'])
 
     to_date = Entry(important_frame, width=10, borderwidth=3)
