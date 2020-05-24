@@ -46,13 +46,13 @@ def settings(config=None):
     settings_window.title("Ustawienia")
     settings_window.resizable(False, False)
 
-    settings_window.option_add( "*font", "Symbol 10" )
+    settings_window.option_add( "*font", "Lucida 10" )
 
     connection_frame = LabelFrame(settings_window, text="Ustawienia Połączenia", padx=10, pady=10)
     other_frame = LabelFrame(settings_window, text="Inne ustawienia", padx=10, pady=10)
     auto_open_var = IntVar(master=other_frame, value=config['other'].getboolean('open_file'))
 
-    password = Entry(connection_frame, width=30, borderwidth=3, show=u"\u2022")
+    password = Entry(connection_frame, width=30, borderwidth=3, show=u"\U00002B24")
     server_ip = Entry(connection_frame, width=30, borderwidth=3)
     port = Entry(connection_frame, width=30, borderwidth=3)
     catalogue = Entry(connection_frame, width=30, borderwidth=3)
@@ -145,22 +145,13 @@ def lobby():
         settings()
         settings_manager.write_config()
 
-
     def zakupy():
-        # try:
-            saveall()
-            execute(False)
-        # except:
-        #     messagebox.showerror("Error","System nie może odnaleźć określonej ścieżki.")
+        saveall()
+        execute(False)
 
     def sprzedaze():
-         # try:
-            saveall()
-            execute(True)
-         # except:
-         #    messagebox.showerror("Error","System nie może odnaleźć określonej ścieżki.")
-
-
+        saveall()
+        execute(True)
 
     def saveall():
         write = False
@@ -191,7 +182,7 @@ def lobby():
     main_window.title("ZZiNP")
     main_window.resizable(False, False)
 
-    main_window.option_add("*font", "Symbol 10")
+    main_window.option_add("*font", "Lucida 10")
 
     splits_frame = LabelFrame(main_window, text="Wybrane przedziały danych:", padx=10, pady=10)
     important_frame = Frame(main_window, padx=10, pady=10)
