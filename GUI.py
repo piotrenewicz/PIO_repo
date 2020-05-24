@@ -145,7 +145,7 @@ def lobby():
         saveall()
         execute(False)
 
-    def sprzedarze():
+    def sprzedaze():
         saveall()
         execute(True)
 
@@ -200,7 +200,7 @@ def lobby():
     to_date.grid(row=1, column=2, pady=(0, 20))
     to_date.insert(0, settings_manager.config['other']['to_date'])
 
-    button_0 = Button(important_frame, text="Zestawienie sprzedaży", pady=6, command=sprzedarze)
+    button_0 = Button(important_frame, text="Zestawienie sprzedaży", pady=6, command=sprzedaze)
     button_1 = Button(important_frame, text="Zestawienie zakupów", pady=6, command=zakupy)
     button_2 = Button(important_frame, text="Ustawienia", pady=6, command=ustawienia)
     button_3 = Button(important_frame, text="Zamknij program", pady=6, command=main_window.quit)
