@@ -1,8 +1,10 @@
-from PIL import ImageTk, Image
+# from PIL import ImageTk, Image
 from tkinter import *
 # import datetime
 from tkinter import messagebox
 import sys
+from fdb.fbcore import DatabaseError
+
 
 
 def settings(config=None):
