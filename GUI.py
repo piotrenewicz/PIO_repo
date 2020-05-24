@@ -170,7 +170,7 @@ def lobby():
 
     main_window = Tk()
     main_window.title("Nasz program")
-    main_window.resizable(False, False)
+    main_window.resizable(False, False) #
 
     splits_frame = LabelFrame(main_window, text="Wybrane przedziały danych:", padx=10, pady=10)
     important_frame = Frame(main_window, padx=10, pady=10)
