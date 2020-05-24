@@ -166,7 +166,7 @@ def lobby():
 
     main_window = Tk()
 
-    splits_frame = LabelFrame(main_window, text="Wybrane Przedziały danych:", padx=10, pady=10)
+    splits_frame = LabelFrame(main_window, text="Wybrane przedziały danych:", padx=10, pady=10)
     important_frame = Frame(main_window, padx=10, pady=10)
 
     for barrier in splits:
@@ -177,19 +177,24 @@ def lobby():
     # ---------------------------------------
     myLabel0 = Label(important_frame, text="ID firmy do zestawienia:")
     myLabel0.grid(row=0, column=1, pady=(0, 20))
+    myLabel1 = Label(important_frame, text="Data:")
+    myLabel1.grid(row=1, column=1, pady=(0, 20), padx = (97, 0))
 
     id = Entry(important_frame, width=10, borderwidth=3)
     id.grid(row=0, column=2, pady=(0, 20))
     id.insert(0, settings_manager.config['other']['id_firmy'])
 
+    data = Entry(important_frame, width=10, borderwidth=3)
+    data.grid(row=1, column=2, pady=(0, 20))
+
     button_0 = Button(important_frame, text="Zestawienie sprzedaży", pady=6, command=sprzedarze)
     button_1 = Button(important_frame, text="Zestawienie zakupów", pady=6, command=zakupy)
     button_2 = Button(important_frame, text="Ustawienia", pady=6, command=ustawienia)
     button_3 = Button(important_frame, text="Zamknij program", pady=6, command=main_window.quit)
-    button_0.grid(row=1, column=1, columnspan=2, sticky=W+E)
-    button_1.grid(row=2, column=1, columnspan=2, sticky=W+E, pady=(0, 20))
-    button_2.grid(row=3, column=1, columnspan=2, sticky=W+E)
-    button_3.grid(row=4, column=1, columnspan=2, sticky=W+E)
+    button_0.grid(row=2, column=1, columnspan=2, sticky=W+E)
+    button_1.grid(row=3, column=1, columnspan=2, sticky=W+E, pady=(0, 20))
+    button_2.grid(row=4, column=1, columnspan=2, sticky=W+E)
+    button_3.grid(row=5, column=1, columnspan=2, sticky=W+E)
 
     splits_frame.grid(row=0, column=0, padx=15, pady=15)
     important_frame.grid(row=0, column=1, pady=15, sticky=N+E)
