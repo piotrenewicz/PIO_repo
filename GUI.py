@@ -32,6 +32,7 @@ def settings(config=None):
         config_read['database'] = catalogue.get()
         config_read['port'] = port.get()
         config['other']['output_file'] = path.get()
+        config['other']['open_file'] = str(auto_open_var.get())
 
         close()
 
@@ -45,18 +46,21 @@ def settings(config=None):
 
     connection_frame = LabelFrame(settings_window, text="Ustawienia Połączenia", padx=10, pady=10)
     other_frame = LabelFrame(settings_window, text="Inne ustawienia", padx=10, pady=10)
+    auto_open_var = IntVar(master=other_frame, value=config['other'].getboolean('open_file'))
 
-    password = Entry(connection_frame, width=30, borderwidth=3, show =u"\u2022")
+    password = Entry(connection_frame, width=30, borderwidth=3, show=u"\u2022")
     server_ip = Entry(connection_frame, width=30, borderwidth=3)
     port = Entry(connection_frame, width=30, borderwidth=3)
     catalogue = Entry(connection_frame, width=30, borderwidth=3)
     path = Entry(other_frame, width=35, borderwidth=3)
+    auto_open_box = Checkbutton(other_frame, variable=auto_open_var)
 
     password.grid(row=1, column=1)
     server_ip.grid(row=2, column=1)
     port.grid(row=3, column=1)
     catalogue.grid(row=4, column=1)
-    path.grid(row=7, column=1, sticky=W+E)
+    path.grid(row=7, column=1, columnspan=2, sticky=W+E, pady=3)
+    auto_open_box.grid(row=8, column=2, sticky=W, pady=6)
 
     password.insert(0, config_read['password'])
     server_ip.insert(0, config_read['host'])
@@ -64,19 +68,19 @@ def settings(config=None):
     port.insert(0, config_read['port'])
     path.insert(0, config['other']['output_file'])
 
-
-
     myLabel1 = Label(connection_frame, text="Hasło użytkownika SYSDBA:")
     myLabel2 = Label(connection_frame, text="IP servera bazy danych:")
     myLabel3 = Label(connection_frame, text="Numer portu:")
     myLabel4 = Label(connection_frame, text="Katalog główny programu FAKT:")
     myLabel5 = Label(other_frame, text="Ścieżka pliku docelowego:")
+    myLabel6 = Label(other_frame, text="Otwórz wykonane zestawienie: ")
 
     myLabel1.grid(row=1, column=0, sticky=E)
     myLabel2.grid(row=2, column=0, sticky=E)
     myLabel3.grid(row=3, column=0, sticky=E)
     myLabel4.grid(row=4, column=0, sticky=E)
-    myLabel5.grid(row=7, column=0, sticky=E)
+    myLabel5.grid(row=7, column=0, sticky=E, pady=3)
+    myLabel6.grid(row=8, column=0, sticky=E, columnspan=2, pady=6)
 
     connection_frame.grid(row=0, column=0, columnspan=2, pady=10, padx=10)
     other_frame.grid(row=1, column=0, columnspan=2, pady=0, padx=10, sticky=E+W)
