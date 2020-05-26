@@ -2,6 +2,7 @@ import fdb
 import xlwt
 import datetime
 import arial10
+from main import settings_manager
 from tkinter import *
 from tkinter import messagebox
 
@@ -147,6 +148,9 @@ def write_to_spreadsheet(filename, header, splitted_data, split_labels):
 
 def add_new_sheet(wb, header, data, sheet_name):
     ws = FitSheetWrapper(wb.add_sheet(sheet_name, cell_overwrite_ok=True))
+
+    choosen_date = settings_manager.config['other']['to_date']
+
     # style = xlwt.XFStyle()
     # style.num_format_str = r'#,##0'
     # pattern = xlwt.Pattern()
@@ -171,5 +175,5 @@ def add_new_sheet(wb, header, data, sheet_name):
             suma += row_value[column_idx]
         ws.write(len(data) + 1, column_idx, round(suma, 2), style)
     ws.write(len(data) + 1, 0, "SUMA:")
-
+    ws.write(len(data) + 2, 2, f"WYBRANA DATA: {choosen_date}")
 
