@@ -175,5 +175,8 @@ def add_new_sheet(wb, header, data, sheet_name):
             suma += row_value[column_idx]
         ws.write(len(data) + 1, column_idx, round(suma, 2), style)
     ws.write(len(data) + 1, 0, "SUMA:")
-    ws.write(len(data) + 2, 2, f"WYBRANA DATA: {choosen_date}")
+    if choosen_date == '':
+        pass
+    else:
+        ws.write(len(data) + 2, 2, f"WYBRANA DATA: {choosen_date}")
 
