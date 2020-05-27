@@ -24,14 +24,14 @@ class SettingsWindow(object):
     config = None
     database_config = None
     other_config = None
-    settings_tk_root = None
+    settings_tk_root = Tk
 
-    auto_open_var = None
-    password = None
-    server_ip = None
-    catalogue = None
-    port = None
-    path = None
+    auto_open_var = IntVar
+    password = Entry
+    server_ip = Entry
+    catalogue = Entry
+    port = Entry
+    path = Entry
 
     def __init__(self, config=None):
         if config is None:
@@ -127,116 +127,124 @@ class LobbyWindow(object):
     #
     # [Ustawienia]      [Zamknij Program]
 
-    lobby_tk_root = None
+    lobby_tk_root = Tk
+    y = 0
+    splits_entry_fields = []
+    splits_remove_buttons = []
+    splits = []
+    splits_frame = LabelFrame
+    new_split_button = Button
+    settings_manager = object
+    execute = None
+    selected_firm_ID = Entry
+    to_date = Entry
 
     def __init__(self):
+        from main import settings_manager, execute
+        self.settings_manager = settings_manager
+        self.execute = execute
+
+        self.splits = self.settings_manager.get_split_list()
+
         self.lobby_tk_root = Tk()
         self.lobby_tk_root.title("ZZiNP")
         self.lobby_tk_root.resizable(False, False)
 
         self.lobby_tk_root.option_add("*font", "Lucida 10")
 
-        splits_frame = LabelFrame(self.lobby_tk_root, text="Wybrane przedziały danych:", padx=10, pady=10)
+        self.splits_frame = LabelFrame(self.lobby_tk_root, text="Wybrane przedziały danych:", padx=10, pady=10)
         important_frame = Frame(self.lobby_tk_root, padx=10, pady=10)
 
-        for barrier in splits:
-            display_split(str(barrier))
+        for barrier in self.splits:
+            self.display_split(str(barrier))
 
-        new_split_button = Button(splits_frame, text="+", command=add_split, padx=6, pady=2)
-        new_split_button.grid(row=y, column=0, padx=(0, 6))
+        self.new_split_button = Button(self.splits_frame, text="+", command=self.add_split, padx=6, pady=2)
+        self.new_split_button.grid(row=self.y, column=0, padx=(0, 6))
         # ---------------------------------------
         myLabel0 = Label(important_frame, text="ID firmy do zestawienia:")
         myLabel0.grid(row=0, column=1)
         myLabel1 = Label(important_frame, text="Data:")
         myLabel1.grid(row=1, column=1, pady=(0, 20), sticky=E)
 
-        id = Entry(important_frame, width=10, borderwidth=3)
-        id.grid(row=0, column=2)
-        id.insert(0, settings_manager.config['other']['id_firmy'])
+        self.selected_firm_ID = Entry(important_frame, width=10, borderwidth=3)
+        self.selected_firm_ID.grid(row=0, column=2)
+        self.selected_firm_ID.insert(0, self.settings_manager.config['other']['id_firmy'])
 
-        to_date = Entry(important_frame, width=10, borderwidth=3)
-        to_date.grid(row=1, column=2, pady=(0, 20))
-        to_date.insert(0, settings_manager.config['other']['to_date'])
+        self.to_date = Entry(important_frame, width=10, borderwidth=3)
+        self.to_date.grid(row=1, column=2, pady=(0, 20))
+        self.to_date.insert(0, self.settings_manager.config['other']['to_date'])
 
-        button_0 = Button(important_frame, text="Zestawienie sprzedaży", pady=6, command=sprzedaze)
-        button_1 = Button(important_frame, text="Zestawienie zakupów", pady=6, command=zakupy)
-        button_2 = Button(important_frame, text="Ustawienia", pady=6, command=ustawienia)
+        button_0 = Button(important_frame, text="Zestawienie sprzedaży", pady=6, command=self.sprzedaze)
+        button_1 = Button(important_frame, text="Zestawienie zakupów", pady=6, command=self.zakupy)
+        button_2 = Button(important_frame, text="Ustawienia", pady=6, command=self.ustawienia)
         button_3 = Button(important_frame, text="Zamknij program", pady=6, command=self.lobby_tk_root.quit)
         button_0.grid(row=2, column=1, columnspan=2, sticky=W + E)
         button_1.grid(row=3, column=1, columnspan=2, sticky=W + E, pady=(0, 20))
         button_2.grid(row=4, column=1, columnspan=2, sticky=W + E)
         button_3.grid(row=5, column=1, columnspan=2, sticky=W + E)
 
-        splits_frame.grid(row=0, column=0, padx=15, pady=15)
+        self.splits_frame.grid(row=0, column=0, padx=15, pady=15)
         important_frame.grid(row=0, column=1, pady=15, sticky=N + E)
 
         self.lobby_tk_root.mainloop()
 
-    from main import settings_manager, execute
-    splits = settings_manager.get_split_list()
-
-    y = 0
-    splits_entry_fields = []
-    splits_remove_buttons = []
-
-    def display_split(num: str):
-        nonlocal y
-        new_remove = Button(splits_frame, text="-", command=lambda y=y: remove_split(y), padx=8, pady=2)
-        new_remove.grid(row=y, column=0, padx=(0, 6))
-        splits_remove_buttons.append(new_remove)
-        new_entry = Entry(splits_frame, width=15, borderwidth=3)
-        new_entry.grid(row=y, column=1)
+    def display_split(self, num: str):
+        new_remove = Button(self.splits_frame, text="-", command=lambda y=self.y: self.remove_split(y), padx=8, pady=2)
+        new_remove.grid(row=self.y, column=0, padx=(0, 6))
+        self.splits_remove_buttons.append(new_remove)
+        new_entry = Entry(self.splits_frame, width=15, borderwidth=3)
+        new_entry.grid(row=self.y, column=1)
         new_entry.insert(0, num)
-        splits_entry_fields.append(new_entry)
-        y += 1
+        self.splits_entry_fields.append(new_entry)
+        self.y += 1
 
-    def add_split():
-        display_split("")
-        new_split_button.grid_forget()
-        new_split_button.grid(row=y, column=0, padx=(0, 6))
+    def add_split(self):
+        self.display_split("")
+        self.new_split_button.grid_forget()
+        self.new_split_button.grid(row=self.y, column=0, padx=(0, 6))
 
-    def remove_split(idx: int):
-        splits_entry_fields[idx].grid_forget()
-        splits_remove_buttons[idx].grid_forget()
-        splits_entry_fields[idx] = None
-        splits_entry_fields[idx] = None
+    def remove_split(self, idx: int):
+        self.splits_entry_fields[idx].grid_forget()
+        self.splits_remove_buttons[idx].grid_forget()
+        self.splits_entry_fields[idx] = None
+        self.splits_entry_fields[idx] = None
 
-    def ustawienia():
+    def ustawienia(self):
         SettingsWindow()
-        settings_manager.write_config()
+        self.settings_manager.write_config()
 
-    def zakupy():
-        saveall()
-        execute(False)
+    def zakupy(self):
+        self.saveall()
+        self.execute(False)
 
-    def sprzedaze():
-        saveall()
-        execute(True)
+    def sprzedaze(self):
+        self.saveall()
+        self.execute(True)
 
-    def saveall():
+    def saveall(self):
         write = False
-        if settings_manager.config['other']['id_firmy'] != id.get():
-            settings_manager.config['other']['id_firmy'] = id.get()
+        if self.settings_manager.config['other']['id_firmy'] != self.selected_firm_ID.get():
+            self.settings_manager.config['other']['id_firmy'] = self.selected_firm_ID.get()
             write = True
 
-        if settings_manager.config['other']['to_date'] != to_date.get():
-            settings_manager.config['other']['to_date'] = to_date.get()
+        if self.settings_manager.config['other']['to_date'] != self.to_date.get():
+            self.settings_manager.config['other']['to_date'] = self.to_date.get()
             write = True
 
         found_splits = []
-        for entry_field in splits_entry_fields:
+        for entry_field in self.splits_entry_fields:
             if entry_field:
                 split = entry_field.get()
                 if split.isnumeric():
                     found_splits.append(int(split))
 
         found_splits = sorted(found_splits, reverse=True)
-        if found_splits != settings_manager.get_split_list():
-            settings_manager.config['other']['splits'] = str(found_splits)
+        if found_splits != self.settings_manager.get_split_list():
+            self.settings_manager.config['other']['splits'] = str(found_splits)
             write = True
 
         if write:
-            settings_manager.write_config()
+            self.settings_manager.write_config()
 
 
 

@@ -105,4 +105,4 @@ def execute(switch: bool):
 
 
 if __name__ == "__main__":
-    GUI.lobby()
+    GUI.LobbyWindow()
