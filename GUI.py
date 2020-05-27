@@ -1,7 +1,5 @@
 # from PIL import ImageTk, Image
 from tkinter import *
-from tkinter import messagebox
-import sys
 
 
 class SettingsWindow(object):
@@ -73,19 +71,19 @@ class SettingsWindow(object):
         self.port.insert(0, self.database_config['port'])
         self.path.insert(0, self.other_config['output_file'])
 
-        myLabel1 = Label(connection_frame, text="Hasło użytkownika SYSDBA:")
-        myLabel2 = Label(connection_frame, text="IP servera bazy danych:")
-        myLabel3 = Label(connection_frame, text="Numer portu:")
-        myLabel4 = Label(connection_frame, text="Katalog główny programu FAKT:")
-        myLabel5 = Label(other_frame, text="Ścieżka pliku docelowego:")
-        myLabel6 = Label(other_frame, text="Otwórz wykonane zestawienie: ")
+        my_label1 = Label(connection_frame, text="Hasło użytkownika SYSDBA:")
+        my_label2 = Label(connection_frame, text="IP servera bazy danych:")
+        my_label3 = Label(connection_frame, text="Numer portu:")
+        my_label4 = Label(connection_frame, text="Katalog główny programu FAKT:")
+        my_label5 = Label(other_frame, text="Ścieżka pliku docelowego:")
+        my_label6 = Label(other_frame, text="Otwórz wykonane zestawienie: ")
 
-        myLabel1.grid(row=1, column=0, sticky=E)
-        myLabel2.grid(row=2, column=0, sticky=E)
-        myLabel3.grid(row=3, column=0, sticky=E)
-        myLabel4.grid(row=4, column=0, sticky=E)
-        myLabel5.grid(row=7, column=0, sticky=E, pady=3)
-        myLabel6.grid(row=8, column=0, sticky=E, columnspan=2, pady=6)
+        my_label1.grid(row=1, column=0, sticky=E)
+        my_label2.grid(row=2, column=0, sticky=E)
+        my_label3.grid(row=3, column=0, sticky=E)
+        my_label4.grid(row=4, column=0, sticky=E)
+        my_label5.grid(row=7, column=0, sticky=E, pady=3)
+        my_label6.grid(row=8, column=0, sticky=E, columnspan=2, pady=6)
 
         connection_frame.grid(row=0, column=0, columnspan=2, pady=10, padx=10)
         other_frame.grid(row=1, column=0, columnspan=2, pady=0, padx=10, sticky=E + W)
@@ -161,10 +159,10 @@ class LobbyWindow(object):
         self.new_split_button = Button(self.splits_frame, text="+", command=self.add_split, padx=6, pady=2)
         self.new_split_button.grid(row=self.y, column=0, padx=(0, 6))
         # ---------------------------------------
-        myLabel0 = Label(important_frame, text="ID firmy do zestawienia:")
-        myLabel0.grid(row=0, column=1)
-        myLabel1 = Label(important_frame, text="Data:")
-        myLabel1.grid(row=1, column=1, pady=(0, 20), sticky=E)
+        my_label0 = Label(important_frame, text="ID firmy do zestawienia:")
+        my_label0.grid(row=0, column=1)
+        my_label1 = Label(important_frame, text="Data:")
+        my_label1.grid(row=1, column=1, pady=(0, 20), sticky=E)
 
         self.selected_firm_ID = Entry(important_frame, width=10, borderwidth=3)
         self.selected_firm_ID.grid(row=0, column=2)
@@ -245,13 +243,3 @@ class LobbyWindow(object):
 
         if write:
             self.settings_manager.write_config()
-
-
-
-
-
-
-
-
-
-

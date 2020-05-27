@@ -1,9 +1,11 @@
-import data_processing
-import configparser
-import GUI
-import os
+from data_processing import DataManager
+from GUI import SettingsWindow, LobbyWindow
+
 from tkinter import messagebox
 from fdb.fbcore import DatabaseError
+from os import path
+from configparser import ConfigParser
+
 from platform import system
 system = system()  # checking for win here, allows this to run on Lnx
 if system == 'Windows':
@@ -15,13 +17,13 @@ class SettingManager(object):
     config = None
 
     def __init__(self):
-        self.config = configparser.ConfigParser()
+        self.config = ConfigParser()
         try:
             self.read_config()
         except FileNotFoundError:
             self.populate_with_defaults()
 
-            GUI.SettingsWindow(self.config)
+            SettingsWindow(self.config)
 
             self.write_config()
 
@@ -37,7 +39,7 @@ class SettingManager(object):
 
         self.config['other'] = {
             'splits': str([180, 90, 60, 30, 0]),
-            'output_file': os.path.join(winpath.get_desktop(), 'Zestawienie'),
+            'output_file': path.join(winpath.get_desktop(), 'Zestawienie'),
             'id_firmy': '1',
             'to_date': '',
             'open_file': '1',
@@ -47,7 +49,10 @@ class SettingManager(object):
         connection_arg = dict(self.config['DATABASE'])
         connection_arg['port'] = int(connection_arg['port'])
         padded_id_firmy = self.config['other']['id_firmy'].zfill(4)
-        connection_arg['database'] = "".join([connection_arg['database'], "\\", padded_id_firmy, "\\", padded_id_firmy, "baza.fdb"])
+        connection_arg['database'] = "".join(
+            [connection_arg['database'],
+             "\\", padded_id_firmy,
+             "\\", padded_id_firmy, "baza.fdb"])
         return connection_arg
 
     def get_split_list(self):
@@ -69,32 +74,9 @@ class SettingManager(object):
 settings_manager = SettingManager()
 
 
-def create_split_labels(split_list):
-    prev = "+"
-    split_labels = []
-    for idx in range(len(split_list)):
-        current_label = str(split_list[idx])
-        split_labels.append(current_label + prev)
-        prev = "-" + current_label
-    return split_labels
-
-
-def execute(switch: bool):
+def execute(choice: bool):
     try:
-        date = settings_manager.config['other']['to_date']
-        connection_args = settings_manager.get_connection_arg()
-        query = data_processing.render_query(switch, to_date=date)
-        header, data = data_processing.read_database(connection_args, query)
-        splits = settings_manager.get_split_list()
-        podzielone_dane = data_processing.split_data(data, splits)
-        output_filename = settings_manager.config['other']['output_file']
-        split_labels = create_split_labels(splits)
-        data_processing.write_to_spreadsheet(output_filename, header, podzielone_dane, split_labels)
-
-        if settings_manager.config['other'].getboolean('open_file'):
-            os.startfile(output_filename + ".xls")
-
-
+        DataManager(choice)
     except Exception as e:
         messagebox.showerror(type(e).__name__, str(e))
     #     except PermissionError as e:
@@ -103,6 +85,5 @@ def execute(switch: bool):
     #           messagebox.showerror("Error", str(e))
 
 
-
 if __name__ == "__main__":
-    GUI.LobbyWindow()
+    LobbyWindow()
