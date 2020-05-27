@@ -1,12 +1,15 @@
-# import fdb
-# import tkinter as tk
 import data_processing
 import configparser
 import GUI
 import os
-import winpath
 from tkinter import messagebox
 from fdb.fbcore import DatabaseError
+from platform import system
+system = system()  # checking for win here, allows this to run on Lnx
+if system == 'Windows':
+    import winpath  # however Lnx won't be able to generate config, defaults could be shipped.
+    # or we can make an alternative Desktop func for Lnx
+
 
 class SettingManager(object):
     config = None
