@@ -112,7 +112,7 @@ class SettingsWindow(object):
         self.settings_tk_root.destroy()
 
 
-class Lobby(object):
+class LobbyWindow(object):
     # ======= Podziel Spóźnienia na =============
     # [-] [0            ]
     # [-] [30           ]
@@ -127,15 +127,17 @@ class Lobby(object):
     #
     # [Ustawienia]      [Zamknij Program]
 
+    lobby_tk_root = None
+
     def __init__(self):
-        main_window = Tk()
-        main_window.title("ZZiNP")
-        main_window.resizable(False, False)
+        self.lobby_tk_root = Tk()
+        self.lobby_tk_root.title("ZZiNP")
+        self.lobby_tk_root.resizable(False, False)
 
-        main_window.option_add("*font", "Lucida 10")
+        self.lobby_tk_root.option_add("*font", "Lucida 10")
 
-        splits_frame = LabelFrame(main_window, text="Wybrane przedziały danych:", padx=10, pady=10)
-        important_frame = Frame(main_window, padx=10, pady=10)
+        splits_frame = LabelFrame(self.lobby_tk_root, text="Wybrane przedziały danych:", padx=10, pady=10)
+        important_frame = Frame(self.lobby_tk_root, padx=10, pady=10)
 
         for barrier in splits:
             display_split(str(barrier))
@@ -159,7 +161,7 @@ class Lobby(object):
         button_0 = Button(important_frame, text="Zestawienie sprzedaży", pady=6, command=sprzedaze)
         button_1 = Button(important_frame, text="Zestawienie zakupów", pady=6, command=zakupy)
         button_2 = Button(important_frame, text="Ustawienia", pady=6, command=ustawienia)
-        button_3 = Button(important_frame, text="Zamknij program", pady=6, command=main_window.quit)
+        button_3 = Button(important_frame, text="Zamknij program", pady=6, command=self.lobby_tk_root.quit)
         button_0.grid(row=2, column=1, columnspan=2, sticky=W + E)
         button_1.grid(row=3, column=1, columnspan=2, sticky=W + E, pady=(0, 20))
         button_2.grid(row=4, column=1, columnspan=2, sticky=W + E)
@@ -168,7 +170,7 @@ class Lobby(object):
         splits_frame.grid(row=0, column=0, padx=15, pady=15)
         important_frame.grid(row=0, column=1, pady=15, sticky=N + E)
 
-        main_window.mainloop()
+        self.lobby_tk_root.mainloop()
 
     from main import settings_manager, execute
     splits = settings_manager.get_split_list()
@@ -236,47 +238,6 @@ class Lobby(object):
         if write:
             settings_manager.write_config()
 
-    main_window = Tk()
-    main_window.title("ZZiNP")
-    main_window.resizable(False, False)
-
-    main_window.option_add("*font", "Lucida 10")
-
-    splits_frame = LabelFrame(main_window, text="Wybrane przedziały danych:", padx=10, pady=10)
-    important_frame = Frame(main_window, padx=10, pady=10)
-
-    for barrier in splits:
-        display_split(str(barrier))
-
-    new_split_button = Button(splits_frame, text="+", command=add_split, padx=6, pady=2)
-    new_split_button.grid(row=y, column=0, padx=(0, 6))
-    # ---------------------------------------
-    myLabel0 = Label(important_frame, text="ID firmy do zestawienia:")
-    myLabel0.grid(row=0, column=1)
-    myLabel1 = Label(important_frame, text="Data:")
-    myLabel1.grid(row=1, column=1, pady=(0, 20), sticky=E)
-
-    id = Entry(important_frame, width=10, borderwidth=3)
-    id.grid(row=0, column=2)
-    id.insert(0, settings_manager.config['other']['id_firmy'])
-
-    to_date = Entry(important_frame, width=10, borderwidth=3)
-    to_date.grid(row=1, column=2, pady=(0, 20))
-    to_date.insert(0, settings_manager.config['other']['to_date'])
-
-    button_0 = Button(important_frame, text="Zestawienie sprzedaży", pady=6, command=sprzedaze)
-    button_1 = Button(important_frame, text="Zestawienie zakupów", pady=6, command=zakupy)
-    button_2 = Button(important_frame, text="Ustawienia", pady=6, command=ustawienia)
-    button_3 = Button(important_frame, text="Zamknij program", pady=6, command=main_window.quit)
-    button_0.grid(row=2, column=1, columnspan=2, sticky=W+E)
-    button_1.grid(row=3, column=1, columnspan=2, sticky=W+E, pady=(0, 20))
-    button_2.grid(row=4, column=1, columnspan=2, sticky=W+E)
-    button_3.grid(row=5, column=1, columnspan=2, sticky=W+E)
-
-    splits_frame.grid(row=0, column=0, padx=15, pady=15)
-    important_frame.grid(row=0, column=1, pady=15, sticky=N+E)
-
-    main_window.mainloop()
 
 
 
