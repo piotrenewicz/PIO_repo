@@ -4,7 +4,7 @@ from tkinter import messagebox
 import sys
 
 
-def settings(config=None):
+class SettingsWindow(object):
     # ======= Ustawienia Połączenia ==================
     # hasło użytkownika SYSDBA
     # IP servera bazy danych
@@ -21,79 +21,95 @@ def settings(config=None):
     #
     # [Anuluj?]  [Zapisz]
 
-    if config is None:
-        from main import settings_manager
-        config = settings_manager.config
+    config = None
+    database_config = None
+    other_config = None
+    settings_tk_root = None
 
-    config_read = config['DATABASE']
+    auto_open_var = None
+    password = None
+    server_ip = None
+    catalogue = None
+    port = None
+    path = None
 
-    def zapisz():
-        config_read['password'] = password.get()
-        config_read['host'] = server_ip.get()
-        config_read['database'] = catalogue.get()
-        config_read['port'] = port.get()
-        config['other']['output_file'] = path.get()
-        config['other']['open_file'] = str(auto_open_var.get())
+    def __init__(self, config=None):
+        if config is None:
+            from main import settings_manager
+            self.config = settings_manager.config
+        else:
+            self.config = config
 
-        close()
+        self.database_config = self.config['DATABASE']
+        self.other_config = self.config['other']
 
-    def close():
-        settings_window.quit()
-        settings_window.destroy()
+        self.settings_tk_root = Tk()
+        self.settings_tk_root.title("Ustawienia")
+        self.settings_tk_root.resizable(False, False)
 
-    settings_window = Tk()
-    settings_window.title("Ustawienia")
-    settings_window.resizable(False, False)
+        self.settings_tk_root.option_add("*font", "Lucida 10")
 
-    settings_window.option_add("*font", "Lucida 10")
+        connection_frame = LabelFrame(self.settings_tk_root, text="Ustawienia Połączenia", padx=10, pady=10)
+        other_frame = LabelFrame(self.settings_tk_root, text="Inne ustawienia", padx=10, pady=10)
+        self.auto_open_var = IntVar(master=other_frame, value=self.other_config.getboolean('open_file'))
 
-    connection_frame = LabelFrame(settings_window, text="Ustawienia Połączenia", padx=10, pady=10)
-    other_frame = LabelFrame(settings_window, text="Inne ustawienia", padx=10, pady=10)
-    auto_open_var = IntVar(master=other_frame, value=config['other'].getboolean('open_file'))
+        self.password = Entry(connection_frame, width=30, borderwidth=3, show=u"\U00002B24")
+        self.server_ip = Entry(connection_frame, width=30, borderwidth=3)
+        self.port = Entry(connection_frame, width=30, borderwidth=3)
+        self.catalogue = Entry(connection_frame, width=30, borderwidth=3)
+        self.path = Entry(other_frame, width=35, borderwidth=3)
+        auto_open_box = Checkbutton(other_frame, variable=self.auto_open_var)
 
-    password = Entry(connection_frame, width=30, borderwidth=3, show=u"\U00002B24")
-    server_ip = Entry(connection_frame, width=30, borderwidth=3)
-    port = Entry(connection_frame, width=30, borderwidth=3)
-    catalogue = Entry(connection_frame, width=30, borderwidth=3)
-    path = Entry(other_frame, width=35, borderwidth=3)
-    auto_open_box = Checkbutton(other_frame, variable=auto_open_var)
+        self.password.grid(row=1, column=1)
+        self.server_ip.grid(row=2, column=1)
+        self.port.grid(row=3, column=1)
+        self.catalogue.grid(row=4, column=1)
+        self.path.grid(row=7, column=1, columnspan=2, sticky=W + E, pady=3)
+        auto_open_box.grid(row=8, column=2, sticky=W, pady=6)
 
-    password.grid(row=1, column=1)
-    server_ip.grid(row=2, column=1)
-    port.grid(row=3, column=1)
-    catalogue.grid(row=4, column=1)
-    path.grid(row=7, column=1, columnspan=2, sticky=W+E, pady=3)
-    auto_open_box.grid(row=8, column=2, sticky=W, pady=6)
+        self.password.insert(0, self.database_config['password'])
+        self.server_ip.insert(0, self.database_config['host'])
+        self.catalogue.insert(0, self.database_config['database'])
+        self.port.insert(0, self.database_config['port'])
+        self.path.insert(0, self.other_config['output_file'])
 
-    password.insert(0, config_read['password'])
-    server_ip.insert(0, config_read['host'])
-    catalogue.insert(0, config_read['database'])
-    port.insert(0, config_read['port'])
-    path.insert(0, config['other']['output_file'])
+        myLabel1 = Label(connection_frame, text="Hasło użytkownika SYSDBA:")
+        myLabel2 = Label(connection_frame, text="IP servera bazy danych:")
+        myLabel3 = Label(connection_frame, text="Numer portu:")
+        myLabel4 = Label(connection_frame, text="Katalog główny programu FAKT:")
+        myLabel5 = Label(other_frame, text="Ścieżka pliku docelowego:")
+        myLabel6 = Label(other_frame, text="Otwórz wykonane zestawienie: ")
 
-    myLabel1 = Label(connection_frame, text="Hasło użytkownika SYSDBA:")
-    myLabel2 = Label(connection_frame, text="IP servera bazy danych:")
-    myLabel3 = Label(connection_frame, text="Numer portu:")
-    myLabel4 = Label(connection_frame, text="Katalog główny programu FAKT:")
-    myLabel5 = Label(other_frame, text="Ścieżka pliku docelowego:")
-    myLabel6 = Label(other_frame, text="Otwórz wykonane zestawienie: ")
+        myLabel1.grid(row=1, column=0, sticky=E)
+        myLabel2.grid(row=2, column=0, sticky=E)
+        myLabel3.grid(row=3, column=0, sticky=E)
+        myLabel4.grid(row=4, column=0, sticky=E)
+        myLabel5.grid(row=7, column=0, sticky=E, pady=3)
+        myLabel6.grid(row=8, column=0, sticky=E, columnspan=2, pady=6)
 
-    myLabel1.grid(row=1, column=0, sticky=E)
-    myLabel2.grid(row=2, column=0, sticky=E)
-    myLabel3.grid(row=3, column=0, sticky=E)
-    myLabel4.grid(row=4, column=0, sticky=E)
-    myLabel5.grid(row=7, column=0, sticky=E, pady=3)
-    myLabel6.grid(row=8, column=0, sticky=E, columnspan=2, pady=6)
+        connection_frame.grid(row=0, column=0, columnspan=2, pady=10, padx=10)
+        other_frame.grid(row=1, column=0, columnspan=2, pady=0, padx=10, sticky=E + W)
 
-    connection_frame.grid(row=0, column=0, columnspan=2, pady=10, padx=10)
-    other_frame.grid(row=1, column=0, columnspan=2, pady=0, padx=10, sticky=E+W)
+        button_1 = Button(self.settings_tk_root, text="Zapisz", command=self.zapisz, padx=50)
+        button_2 = Button(self.settings_tk_root, text="Anuluj", command=self.close, padx=50)
+        button_1.grid(row=3, column=0, pady=15)
+        button_2.grid(row=3, column=1)
 
-    button_1 = Button(settings_window, text="Zapisz", command=zapisz, padx=50)
-    button_2 = Button(settings_window, text="Anuluj", command=close, padx=50)
-    button_1.grid(row=3, column=0, pady=15)
-    button_2.grid(row=3, column=1)
+        self.settings_tk_root.mainloop()
 
-    settings_window.mainloop()
+    def zapisz(self):
+        self.database_config['password'] = self.password.get()
+        self.database_config['host'] = self.server_ip.get()
+        self.database_config['database'] = self.catalogue.get()
+        self.database_config['port'] = self.port.get()
+        self.other_config['output_file'] = self.path.get()
+        self.other_config['open_file'] = str(self.auto_open_var.get())
+
+        self.close()
+
+    def close(self):
+        self.settings_tk_root.quit()
+        self.settings_tk_root.destroy()
 
 
 def lobby():
@@ -141,7 +157,7 @@ def lobby():
         splits_entry_fields[idx] = None
 
     def ustawienia():
-        settings()
+        SettingsWindow()
         settings_manager.write_config()
 
     def zakupy():

@@ -21,7 +21,7 @@ class SettingManager(object):
         except FileNotFoundError:
             self.populate_with_defaults()
 
-            GUI.settings(self.config)
+            GUI.SettingsWindow(self.config)
 
             self.write_config()
 
