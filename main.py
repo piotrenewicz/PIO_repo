@@ -35,11 +35,8 @@ class SettingManager(object):
             'charset': 'UTF8'
         }
 
-        self.config['splits'] = {
-            'splits': str([180, 90, 60, 30, 0]),
-        }
-
         self.config['other'] = {
+            'splits': str([180, 90, 60, 30, 0]),
             'output_file': os.path.join(winpath.get_desktop(), 'Zestawienie'),
             'id_firmy': '1',
             'to_date': '',
@@ -54,7 +51,7 @@ class SettingManager(object):
         return connection_arg
 
     def get_split_list(self):
-        splits = self.config['splits']['splits'].strip('[]').split(',')
+        splits = self.config['other']['splits'].strip('[]').split(',')
         if splits == [""]:
             return []
         splits = sorted(list(map(int, splits)), reverse=True)
@@ -96,6 +93,7 @@ def execute(switch: bool):
 
         if settings_manager.config['other'].getboolean('open_file'):
             os.startfile(output_filename + ".xls")
+
 
     except Exception as e:
         messagebox.showerror(type(e).__name__, str(e))

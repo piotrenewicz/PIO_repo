@@ -37,7 +37,6 @@ def settings(config=None):
 
         close()
 
-
     def close():
         settings_window.quit()
         settings_window.destroy()
@@ -46,7 +45,7 @@ def settings(config=None):
     settings_window.title("Ustawienia")
     settings_window.resizable(False, False)
 
-    settings_window.option_add( "*font", "Lucida 10" )
+    settings_window.option_add("*font", "Lucida 10")
 
     connection_frame = LabelFrame(settings_window, text="Ustawienia Połączenia", padx=10, pady=10)
     other_frame = LabelFrame(settings_window, text="Inne ustawienia", padx=10, pady=10)
@@ -172,7 +171,7 @@ def lobby():
 
         found_splits = sorted(found_splits, reverse=True)
         if found_splits != settings_manager.get_split_list():
-            settings_manager.config['splits']['splits'] = str(found_splits)
+            settings_manager.config['other']['splits'] = str(found_splits)
             write = True
 
         if write:
