@@ -1,5 +1,6 @@
 # from PIL import ImageTk, Image
 from tkinter import *
+from tkinter.ttk import *
 
 
 class SettingsWindow(object):
@@ -147,6 +148,7 @@ class LobbyWindow(object):
         self.lobby_tk_root = Tk()
         self.lobby_tk_root.title("ZZiNP")
         self.lobby_tk_root.resizable(False, False)
+        self.lobby_tk_root.iconphoto(False, PhotoImage(file="icon/256x256.png"))
 
         self.lobby_tk_root.option_add("*font", "Lucida 10")
 
