@@ -44,7 +44,6 @@ class SettingsWindow(object):
         self.settings_tk_root = Tk()
         self.settings_tk_root.title("Ustawienia")
         self.settings_tk_root.resizable(False, False)
-        self.settings_tk_root.iconphoto(False, PhotoImage(file="icon/256x256.png"))
 
         self.settings_tk_root.option_add("*font", "Lucida 10")
 
